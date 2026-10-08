@@ -1,0 +1,1757 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="竹めぐり ～切って、食べて、作って、買って、竹林をめぐらせる～ 阿南市の放置竹林問題に取り組む GCON2026 発表用プロトタイプ">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>竹めぐり</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Outfit:wght@500;600;700&display=swap">
+<style>
+/* Layout: mobile-first app shell — sticky header + bottom tab bar on phones, header nav on desktop; content column max 1080px */
+:root{
+  --bg:#F3F7EF; --surface:#FFFFFF; --surface-2:#E6EFDD; --surface-3:#F8F3E3;
+  --ink:#1D2A21; --ink-soft:#56685B; --line:#D3DFCB;
+  --bamboo:#2E7A4A; --bamboo-deep:#1D5634; --shoot:#B5D145; --straw:#E8D8A2;
+  --amber:#D47B22; --on-primary:#FFFFFF; --on-amber:#FFFFFF; --on-shoot:#1D2A21;
+  --g1:#2E6E45; --g2:#4C9A62; --g3:#8DC07A; --leaf:#5FAE5E; --node:#1E5434;
+  --s-winter:#5F8FBF; --s-spring:#E08AA0; --s-dried:#B8913E; --s-allyear:#5E8A63;
+  --art-char:#2B2B29; --art-char-hi:#55554F; --art-wood:#C9A56A; --art-wood-dk:#9C7A43; --art-straw:#E9D59B;
+  --art-amber:#E2A13F; --art-glass:#DCEBE6; --art-bg-1:#E9F1E0; --art-bg-2:#F6EDD6; --art-bg-3:#E4ECF2; --art-bg-4:#F3E3D3;
+  --shadow:0 10px 30px -12px rgba(29,86,52,.28);
+  --font-display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif;
+  --font-body:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --font-num:"Outfit","Zen Kaku Gothic New",system-ui,sans-serif;
+  --r-lg:24px; --r-md:16px; --r-sm:10px;
+  --header-h:64px; --tab-h:66px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111A14; --surface:#18231C; --surface-2:#203026; --surface-3:#262A1E;
+  --ink:#E5EEE2; --ink-soft:#A3B5A7; --line:#2F4235;
+  --bamboo:#5EBD80; --bamboo-deep:#9AD9AE; --shoot:#C3DC5C; --straw:#5D5434;
+  --amber:#EE9A45; --on-primary:#0D1A11; --on-amber:#1E1305; --on-shoot:#13200F;
+  --g1:#2C6A43; --g2:#3E8956; --g3:#5FA266; --leaf:#4E9B53; --node:#9AD9AE;
+  --s-winter:#86B2DE; --s-spring:#EFA3B6; --s-dried:#D8B35E; --s-allyear:#86B28B;
+  --art-char:#0C0C0B; --art-char-hi:#5B5B55; --art-wood:#B99459; --art-wood-dk:#8A6936; --art-straw:#CDB777;
+  --art-amber:#D9973A; --art-glass:#36504A; --art-bg-1:#22352A; --art-bg-2:#36301F; --art-bg-3:#223140; --art-bg-4:#3A2C22;
+  --shadow:0 10px 30px -12px rgba(0,0,0,.6); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#111A14; --surface:#18231C; --surface-2:#203026; --surface-3:#262A1E;
+  --ink:#E5EEE2; --ink-soft:#A3B5A7; --line:#2F4235;
+  --bamboo:#5EBD80; --bamboo-deep:#9AD9AE; --shoot:#C3DC5C; --straw:#5D5434;
+  --amber:#EE9A45; --on-primary:#0D1A11; --on-amber:#1E1305; --on-shoot:#13200F;
+  --g1:#2C6A43; --g2:#3E8956; --g3:#5FA266; --leaf:#4E9B53; --node:#9AD9AE;
+  --s-winter:#86B2DE; --s-spring:#EFA3B6; --s-dried:#D8B35E; --s-allyear:#86B28B;
+  --art-char:#0C0C0B; --art-char-hi:#5B5B55; --art-wood:#B99459; --art-wood-dk:#8A6936; --art-straw:#CDB777;
+  --art-amber:#D9973A; --art-glass:#36504A; --art-bg-1:#22352A; --art-bg-2:#36301F; --art-bg-3:#223140; --art-bg-4:#3A2C22;
+  --shadow:0 10px 30px -12px rgba(0,0,0,.6); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--font-display);line-height:1.3;margin:0;text-wrap:balance;letter-spacing:.01em}
+p{margin:0}
+button{font:inherit;color:inherit}
+a{color:var(--bamboo)}
+:focus-visible{outline:3px solid var(--shoot);outline-offset:2px;border-radius:8px}
+.num{font-family:var(--font-num);font-variant-numeric:tabular-nums}
+
+/* ---------- shell ---------- */
+.app{min-height:100vh;display:flex;flex-direction:column}
+.header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.header-in{max-width:1120px;margin:0 auto;padding-inline:16px;height:var(--header-h);display:flex;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;background:none;border:0;cursor:pointer;padding:4px 0}
+.logo b{font-family:var(--font-display);font-weight:900;font-size:22px;letter-spacing:.06em}
+.logo small{display:block;font-size:10px;color:var(--ink-soft);letter-spacing:.12em;line-height:1;font-family:var(--font-num)}
+.nav{margin-left:auto;display:none;gap:4px}
+.nav button{background:none;border:0;padding:10px 14px;border-radius:999px;cursor:pointer;font-weight:700;font-size:14px;color:var(--ink-soft);display:flex;gap:6px;align-items:center}
+.nav button:hover{background:var(--surface-2);color:var(--ink)}
+.nav button.on{background:var(--surface-2);color:var(--bamboo-deep)}
+.main{flex:1;padding-bottom:calc(var(--tab-h) + 24px + env(safe-area-inset-bottom,0px))}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:16px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabbar-in{display:grid;grid-template-columns:repeat(5,1fr);height:var(--tab-h)}
+.tabbar button{background:none;border:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:700;color:var(--ink-soft);cursor:pointer}
+.tabbar button.on{color:var(--bamboo)}
+.tabbar button.on .tab-ico{background:var(--surface-2)}
+.tab-ico{width:44px;height:28px;border-radius:999px;display:grid;place-items:center;transition:background .2s}
+@media (min-width:900px){
+  .nav{display:flex}
+  .tabbar{display:none}
+  .main{padding-bottom:48px}
+  .header-in{padding-inline:24px}
+  .wrap{padding-inline:24px}
+}
+.footer{border-top:1px solid var(--line);margin-top:56px;padding-block:28px;color:var(--ink-soft);font-size:13px}
+.footer .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+/* ---------- buttons ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:12px 24px;border-radius:999px;border:2px solid transparent;font-weight:700;font-size:16px;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .2s,background .2s;font-family:var(--font-body);line-height:1.3;text-align:center}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--bamboo);color:var(--on-primary);box-shadow:var(--shadow)}
+.btn-primary:hover{background:var(--bamboo-deep)}
+:root:not([data-theme="light"]) .btn-primary:hover{filter:brightness(1.05)}
+.btn-amber{background:var(--amber);color:var(--on-amber)}
+.btn-amber:hover{filter:brightness(1.06)}
+.btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--bamboo);color:var(--bamboo-deep)}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed;box-shadow:none}
+.btn-sm{min-height:42px;padding:8px 16px;font-size:14px}
+.link-btn{background:none;border:0;color:var(--bamboo);font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:4px;padding:6px 0;font-size:15px}
+.link-btn:hover{text-decoration:underline}
+
+/* ---------- common ---------- */
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--bamboo);display:inline-flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:18px;height:6px;border-radius:3px;background:var(--shoot);box-shadow:0 0 0 1.5px var(--bamboo) inset}
+.section{margin-top:56px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(22px,4.4vw,30px);font-weight:900;margin-top:6px}
+.sec-head p{color:var(--ink-soft);margin-top:6px;font-size:15px}
+.page-head{padding-block:28px 8px}
+.page-head h1{font-size:clamp(26px,5.6vw,40px);font-weight:900;margin-top:8px}
+.page-head p{color:var(--ink-soft);margin-top:10px;max-width:40em}
+.back{background:none;border:0;display:inline-flex;align-items:center;gap:6px;color:var(--ink-soft);font-weight:700;cursor:pointer;padding:8px 0;font-size:14px;margin-top:12px}
+.back:hover{color:var(--ink)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:13px;font-weight:700;background:var(--surface-2);color:var(--ink)}
+.season{color:var(--on-primary);background:var(--c)}
+.grid{display:grid;gap:16px}
+@media (min-width:640px){.g2{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:900px){.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}}
+@media (min-width:640px) and (max-width:899px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+.node-rule{height:10px;border-radius:5px;background:var(--surface-2);position:relative;margin-block:8px}
+.node-rule::after{content:"";position:absolute;inset:3px 0;border-top:1.5px solid var(--line);border-bottom:1.5px solid var(--line)}
+.muted{color:var(--ink-soft)}
+.fade-in{animation:fadeUp .45s ease both}
+@keyframes fadeUp{from{opacity:.0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- home ---------- */
+.hero{position:relative;overflow:hidden;border-radius:0 0 36px 36px;background:linear-gradient(170deg,var(--surface-2),var(--bg) 75%);border-bottom:1px solid var(--line)}
+.hero-in{position:relative;z-index:2;display:grid;gap:28px;padding-block:36px 40px}
+.hero-grove{position:absolute;right:-60px;bottom:0;width:min(640px,120%);height:100%;z-index:1;opacity:.35;pointer-events:none}
+.hero h1{font-size:clamp(56px,14vw,104px);font-weight:900;letter-spacing:.08em;line-height:1.05;margin-top:14px;color:var(--bamboo-deep)}
+.hero h1 ruby rt{font-size:13px;letter-spacing:.4em;color:var(--ink-soft);font-weight:700}
+.tagline{font-family:var(--font-display);font-weight:700;font-size:clamp(16px,3.6vw,21px);margin-top:14px;line-height:1.7}
+.tagline .v{display:inline-block;padding:0 2px;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--shoot) 70%,transparent) 62%)}
+.hero .lead{margin-top:16px;color:var(--ink-soft);max-width:30em;font-size:15.5px}
+.hero-ctas{display:grid;gap:12px;margin-top:26px;max-width:420px}
+.hero-ctas .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.hero-ctas .btn-ghost{padding-inline:12px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-self:end}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 12px}
+.stat b{display:block;font-family:var(--font-num);font-size:clamp(24px,5vw,32px);font-weight:700;color:var(--bamboo-deep);line-height:1.1}
+.stat b small{font-size:13px;font-family:var(--font-body);margin-left:2px}
+.stat span{font-size:12px;color:var(--ink-soft);line-height:1.4;display:block;margin-top:4px}
+@media (min-width:900px){
+  .hero-in{grid-template-columns:1.25fr .9fr;padding-block:64px 56px;align-items:end}
+  .hero-grove{opacity:1;right:-20px;width:44%}
+  .hero-stats{grid-template-columns:1fr;max-width:260px;justify-self:end;margin-right:8%}
+  .stat{background:color-mix(in srgb,var(--surface) 92%,transparent)}
+}
+.verbs{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (min-width:900px){.verbs{grid-template-columns:repeat(4,1fr);gap:16px}}
+.verb{position:relative;text-align:left;cursor:pointer;padding:18px 16px 16px;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface);display:flex;flex-direction:column;gap:10px;transition:transform .2s,border-color .2s}
+.verb:hover{transform:translateY(-3px);border-color:var(--c)}
+.verb .vi{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 18%,var(--surface));color:var(--c)}
+.verb h3{font-size:22px;font-weight:900}
+.verb h3 small{font-size:13px;color:var(--ink-soft);font-weight:700;margin-left:6px;font-family:var(--font-body)}
+.verb p{font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.verb .step{position:absolute;top:16px;right:16px;font-family:var(--font-num);font-size:12px;font-weight:700;color:var(--ink-soft)}
+.loop-band{display:grid;gap:24px;align-items:center;padding:28px 20px;border-radius:32px;background:var(--surface-3);border:1px solid var(--line)}
+@media (min-width:900px){.loop-band{grid-template-columns:1fr 1fr;padding:40px 48px}}
+.loop-band h2{font-size:clamp(22px,4.6vw,32px);font-weight:900}
+.loop-band p{color:var(--ink-soft);margin-top:10px}
+.roles-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+
+/* ---------- events ---------- */
+.filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-top:16px;scrollbar-width:none}
+.filters button{flex:none;border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:8px 18px;font-weight:700;cursor:pointer;font-size:14px}
+.filters button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.ev{display:flex;flex-direction:column;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;text-align:left;padding:0;font:inherit}
+.ev:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.ev-art{position:relative;aspect-ratio:16/8;max-width:100%;background:color-mix(in srgb,var(--c) 16%,var(--surface))}
+.ev-art svg{width:100%;height:100%;display:block}
+.ev-date{position:absolute;left:14px;bottom:-22px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px 12px;text-align:center;min-width:70px;box-shadow:var(--shadow)}
+.ev-date .m{font-size:11px;color:var(--ink-soft);font-weight:700;display:block;line-height:1.2}
+.ev-date .d{font-family:var(--font-num);font-size:24px;font-weight:700;line-height:1.1}
+.ev-date .w{font-size:11px;color:var(--ink-soft)}
+.ev-badges{position:absolute;top:12px;left:12px;display:flex;gap:6px}
+.ev-body{padding:32px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.ev-body h3{font-size:19px;font-weight:900}
+.ev-catch{font-size:14px;color:var(--ink-soft);line-height:1.6}
+.facts{display:grid;gap:6px;font-size:14px;margin-top:2px}
+.fact{display:flex;gap:8px;align-items:flex-start;color:var(--ink)}
+.fact svg{flex:none;margin-top:3px;color:var(--bamboo)}
+.seat{margin-top:auto;padding-top:8px}
+.seat-bar{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden}
+.seat-bar i{display:block;height:100%;background:var(--c);border-radius:4px}
+.seat-txt{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-soft);margin-top:6px}
+.seat-txt b{color:var(--ink)}
+.featured-tag{background:var(--shoot);color:var(--on-shoot)}
+
+/* ---------- event detail ---------- */
+.detail{display:grid;gap:24px;margin-top:8px}
+@media (min-width:900px){.detail{grid-template-columns:1.4fr 1fr;align-items:start}}
+.detail-art{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:16/9;max-width:100%;background:color-mix(in srgb,var(--c) 16%,var(--surface))}
+.detail-art svg{width:100%;height:100%;display:block}
+.info-table{display:grid;gap:0;padding:6px 20px}
+.info-row{display:grid;grid-template-columns:88px 1fr;gap:12px;padding:14px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.info-row:last-child{border-bottom:0}
+.info-row dt{color:var(--ink-soft);font-weight:700;display:flex;gap:6px;align-items:center;font-size:14px}
+.info-row dd{margin:0;min-width:0}
+.info-row dd small{display:block;color:var(--ink-soft);font-size:13px;line-height:1.6}
+.aside-sticky{position:sticky;top:calc(var(--header-h) + 16px);display:grid;gap:16px}
+.timeline-s{display:grid;gap:0;margin-top:12px}
+.ts{display:grid;grid-template-columns:64px 1fr;gap:12px;padding:10px 0;border-left:0}
+.ts .t{font-family:var(--font-num);font-weight:600;color:var(--bamboo-deep);font-size:15px}
+.cta-bar{position:fixed;left:0;right:0;bottom:calc(var(--tab-h) + env(safe-area-inset-bottom,0px));z-index:25;padding:12px 16px;background:color-mix(in srgb,var(--surface) 94%,transparent);border-top:1px solid var(--line);display:flex;gap:12px;align-items:center;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.cta-bar .price{font-family:var(--font-num);font-weight:700;font-size:20px;white-space:nowrap}
+.cta-bar .price small{display:block;font-family:var(--font-body);font-size:11px;color:var(--ink-soft);font-weight:500}
+.cta-bar .btn{flex:1}
+@media (min-width:900px){.cta-bar{display:none}}
+.has-cta .main{padding-bottom:calc(var(--tab-h) + 110px + env(safe-area-inset-bottom,0px))}
+@media (min-width:900px){.has-cta .main{padding-bottom:48px}}
+.prose{display:grid;gap:12px;font-size:15.5px}
+.box{padding:22px 20px}
+.box h3{font-size:18px;font-weight:900;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.mini-flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px}
+.mini-flow span{background:var(--surface-2);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700}
+.mini-flow i{color:var(--ink-soft);font-style:normal}
+
+/* ---------- apply ---------- */
+.steps{display:flex;gap:6px;margin:20px 0 24px;max-width:520px}
+.steps .s{flex:1;display:grid;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink-soft)}
+.steps .s i{display:block;height:6px;border-radius:3px;background:var(--line)}
+.steps .s.on{color:var(--bamboo-deep)}
+.steps .s.on i{background:var(--bamboo)}
+.notice{display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:var(--r-md);background:color-mix(in srgb,var(--shoot) 22%,var(--surface));border:1.5px solid color-mix(in srgb,var(--shoot) 70%,var(--line))}
+.notice .ni{flex:none;width:44px;height:44px;border-radius:50%;background:var(--shoot);color:var(--on-shoot);display:grid;place-items:center}
+.notice b{font-family:var(--font-display);font-size:17px;display:block}
+.notice p{font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.roles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:20px}
+@media (min-width:900px){.roles{grid-template-columns:repeat(4,1fr)}}
+.role{position:relative;text-align:left;cursor:pointer;background:var(--surface);border:2px solid var(--line);border-radius:var(--r-md);padding:16px 14px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,background .15s,transform .15s}
+.role:hover{border-color:var(--g3)}
+.role.on{border-color:var(--bamboo);background:color-mix(in srgb,var(--bamboo) 9%,var(--surface))}
+.role .ri{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2);color:var(--bamboo-deep)}
+.role.on .ri{background:var(--bamboo);color:var(--on-primary)}
+.role b{font-size:16px;font-family:var(--font-display)}
+.role p{font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.role .tick{position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;background:var(--surface)}
+.role.on .tick{background:var(--bamboo);border-color:var(--bamboo);color:var(--on-primary)}
+.power{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);margin-top:auto}
+.power i{width:14px;height:6px;border-radius:3px;background:var(--line)}
+.power i.f{background:var(--amber)}
+.form{display:grid;gap:18px;max-width:560px}
+.field label{display:block;font-weight:700;font-size:14px;margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%;font:inherit;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--bamboo);box-shadow:0 0 0 3px color-mix(in srgb,var(--bamboo) 20%,transparent)}
+.field small{color:var(--ink-soft);font-size:12.5px;display:block;margin-top:6px}
+.stepper{display:inline-flex;align-items:center;border:1.5px solid var(--line);border-radius:999px;background:var(--surface)}
+.stepper button{width:46px;height:46px;border:0;background:none;cursor:pointer;display:grid;place-items:center;border-radius:50%}
+.stepper button:hover{background:var(--surface-2)}
+.stepper span{min-width:48px;text-align:center;font-family:var(--font-num);font-weight:700;font-size:18px}
+.summary{padding:18px 20px;display:grid;gap:10px}
+.summary .r{display:flex;gap:12px;justify-content:space-between;font-size:14.5px;border-bottom:1px dashed var(--line);padding-bottom:10px}
+.summary .r:last-child{border-bottom:0;padding-bottom:0}
+.summary .r span:first-child{color:var(--ink-soft);flex:none}
+.summary .r span:last-child{text-align:right;font-weight:700;min-width:0}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn-row .btn{flex:1 1 200px}
+
+/* ---------- done ---------- */
+.done{text-align:center;max-width:560px;margin:32px auto 0;display:grid;gap:18px;justify-items:center}
+.done-badge{width:120px;height:120px;position:relative}
+.done-badge .ring{position:absolute;inset:0;border-radius:50%;background:var(--bamboo);display:grid;place-items:center;color:var(--on-primary);animation:pop .5s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:none;opacity:1}}
+.leafburst span{position:absolute;left:50%;top:50%;width:18px;height:8px;border-radius:0 100% 0 100%;background:var(--leaf);animation:burst 1s ease-out both}
+@keyframes burst{from{transform:translate(-50%,-50%) rotate(var(--a)) translateX(0);opacity:1}to{transform:translate(-50%,-50%) rotate(var(--a)) translateX(90px);opacity:0}}
+.done h1{font-size:clamp(28px,6vw,38px);font-weight:900}
+.bamboo-id{width:100%;padding:20px;border-radius:var(--r-lg);background:var(--surface-3);border:1.5px dashed var(--s-dried);text-align:left;display:grid;gap:6px}
+.bamboo-id .id{font-family:var(--font-num);font-size:clamp(24px,6vw,30px);font-weight:700;letter-spacing:.06em;color:var(--bamboo-deep)}
+
+/* ---------- my bamboo ---------- */
+.mb-hero{display:grid;gap:20px;padding:24px 20px;border-radius:32px;background:linear-gradient(160deg,var(--surface-2),var(--surface));border:1px solid var(--line);position:relative;overflow:hidden}
+@media (min-width:900px){.mb-hero{grid-template-columns:1.2fr 1fr;padding:36px 40px;align-items:center}}
+.status-big{display:inline-flex;align-items:center;gap:10px;padding:8px 16px 8px 10px;border-radius:999px;background:var(--amber);color:var(--on-amber);font-weight:900;font-family:var(--font-display);font-size:18px}
+.status-big .pulse{width:12px;height:12px;border-radius:50%;background:var(--on-amber);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.mb-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.mb-meta div{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:12px}
+.mb-meta b{display:block;font-family:var(--font-num);font-size:24px;font-weight:700;line-height:1.1;color:var(--bamboo-deep)}
+.mb-meta b small{font-family:var(--font-body);font-size:12px;margin-left:2px}
+.mb-meta span{font-size:12px;color:var(--ink-soft);line-height:1.4;display:block;margin-top:4px}
+.track{display:grid;gap:0;margin-top:8px}
+.tk{display:grid;grid-template-columns:56px 1fr;gap:16px;position:relative}
+.tk-rail{position:relative;display:flex;justify-content:center}
+.tk-rail::before{content:"";position:absolute;top:0;bottom:0;width:14px;border-radius:7px;background:var(--surface-2)}
+.tk:first-child .tk-rail::before{top:18px}
+.tk:last-child .tk-rail::before{bottom:calc(100% - 38px)}
+.tk.done .tk-rail::before{background:var(--g3)}
+.tk-dot{position:relative;z-index:1;margin-top:10px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--line);color:var(--ink-soft)}
+.tk.done .tk-dot{background:var(--bamboo);border-color:var(--bamboo);color:var(--on-primary)}
+.tk.now .tk-dot{background:var(--amber);border-color:var(--amber);color:var(--on-amber);box-shadow:0 0 0 6px color-mix(in srgb,var(--amber) 25%,transparent)}
+.tk.live .tk-dot{border-color:var(--amber);color:var(--amber);border-style:dashed}
+.tk-card{padding:12px 0 26px;min-width:0}
+.tk-card .when{font-family:var(--font-num);font-size:13px;font-weight:600;color:var(--ink-soft);letter-spacing:.04em}
+.tk-card h4{font-size:18px;font-weight:900;margin-top:2px}
+.tk-card p{font-size:14.5px;color:var(--ink-soft);margin-top:4px}
+.tk.now .tk-card{background:var(--surface);border:1.5px solid var(--amber);border-radius:var(--r-md);padding:14px 16px;margin-bottom:18px}
+.metric{display:inline-flex;gap:8px;align-items:center;margin-top:8px;padding:4px 12px;border-radius:999px;background:var(--surface-2);font-size:13px;font-weight:700}
+.metric .num{font-size:14px}
+.up-card{padding:18px 20px;display:grid;gap:12px;border-style:dashed;border-width:2px}
+.mini-track{display:flex;align-items:center;gap:4px;overflow-x:auto}
+.mini-track .m{flex:1;min-width:58px;text-align:center;font-size:11.5px;font-weight:700;color:var(--ink-soft)}
+.mini-track .m i{display:block;height:8px;border-radius:4px;background:var(--surface-2);margin-bottom:6px}
+.mini-track .m.on{color:var(--amber)}
+.mini-track .m.on i{background:var(--amber)}
+
+/* ---------- cycle ---------- */
+.cycle-wrap{display:grid;gap:24px;align-items:center}
+@media (min-width:900px){.cycle-wrap{grid-template-columns:1fr 1fr;gap:40px}}
+.cycle-svg{width:100%;max-width:460px;margin:0 auto;display:block}
+.cnode{cursor:pointer}
+.cnode circle{transition:fill .25s,stroke .25s}
+.cnode text{font-family:var(--font-display);font-weight:700;pointer-events:none}
+.cstep{padding:24px 22px;min-height:250px;display:flex;flex-direction:column;gap:12px}
+.cstep .no{font-family:var(--font-num);font-weight:700;color:var(--bamboo);font-size:14px;letter-spacing:.08em}
+.cstep h3{font-size:clamp(22px,4.4vw,28px);font-weight:900}
+.cstep .fact-box{margin-top:auto;padding:12px 14px;border-radius:var(--r-sm);background:var(--surface-2);font-size:13.5px;display:flex;gap:10px;align-items:flex-start}
+.cstep-nav{display:flex;gap:10px;margin-top:4px}
+.uses{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media (min-width:900px){.uses{grid-template-columns:repeat(4,1fr)}}
+.use{overflow:hidden;cursor:pointer;text-align:left;padding:0;font:inherit;transition:transform .2s}
+.use:hover{transform:translateY(-3px)}
+.use .art{aspect-ratio:4/3;max-width:100%}
+.use .art svg{width:100%;height:100%;display:block}
+.use .b{padding:12px 14px 16px}
+.use b{font-family:var(--font-display);font-size:17px}
+.use p{font-size:13px;color:var(--ink-soft);line-height:1.6;margin-top:4px}
+
+/* ---------- shop ---------- */
+.shop-banner{display:flex;gap:14px;align-items:center;padding:16px 18px;border-radius:var(--r-md);background:color-mix(in srgb,var(--amber) 14%,var(--surface));border:1px solid color-mix(in srgb,var(--amber) 40%,var(--line));margin-top:16px}
+.shop-banner .ni{flex:none;width:44px;height:44px;border-radius:50%;background:var(--amber);color:var(--on-amber);display:grid;place-items:center}
+.shop-banner p{font-size:14px;line-height:1.6}
+.pd{overflow:hidden;display:flex;flex-direction:column;cursor:pointer;text-align:left;padding:0;font:inherit;transition:transform .2s,box-shadow .2s}
+.pd:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.pd-art{position:relative;aspect-ratio:4/3;max-width:100%}
+.pd-art svg{width:100%;height:100%;display:block}
+.pd-art .chip{position:absolute;top:10px;left:10px}
+.mine{background:var(--amber);color:var(--on-amber)}
+.pd-b{padding:14px 16px 18px;display:flex;flex-direction:column;gap:6px;flex:1}
+.pd-b h3{font-size:17px;font-weight:700}
+.pd-b p{font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.price{font-family:var(--font-num);font-weight:700;font-size:20px;margin-top:auto;padding-top:6px}
+.price small{font-size:12px;color:var(--ink-soft);font-family:var(--font-body);font-weight:500;margin-left:4px}
+.pdetail{display:grid;gap:24px;margin-top:8px}
+@media (min-width:900px){.pdetail{grid-template-columns:1.1fr 1fr;align-items:start;gap:40px}}
+.pdetail-art{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3;max-width:100%;border:1px solid var(--line)}
+.pdetail-art svg{width:100%;height:100%;display:block}
+.pdetail h1{font-size:clamp(24px,5vw,34px);font-weight:900}
+.big-price{font-family:var(--font-num);font-size:34px;font-weight:700}
+.big-price small{font-family:var(--font-body);font-size:13px;color:var(--ink-soft);font-weight:500;margin-left:6px}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:14px;padding:16px 18px}
+.specs dt{color:var(--ink-soft);font-weight:700}
+.specs dd{margin:0}
+.story{padding:18px 20px;background:var(--surface-3)}
+.story-flow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px}
+.story-flow div{text-align:center;font-size:12px;font-weight:700;display:grid;gap:6px;justify-items:center;line-height:1.35}
+.story-flow div span{width:40px;height:40px;border-radius:50%;background:var(--surface);border:1.5px solid var(--g3);display:grid;place-items:center;color:var(--bamboo-deep)}
+.story-flow div small{font-family:var(--font-num);color:var(--ink-soft);font-weight:500;font-size:11px}
+.buy-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.buy-row .btn{flex:1 1 220px}
+
+/* ---------- modal ---------- */
+.modal-bg{position:fixed;inset:0;z-index:60;background:rgba(10,20,14,.55);display:grid;place-items:end center;padding:16px;animation:fadeBg .2s both}
+@keyframes fadeBg{from{opacity:0}to{opacity:1}}
+@media (min-width:640px){.modal-bg{place-items:center}}
+.modal{width:100%;max-width:460px;background:var(--surface);border-radius:28px;padding:28px 24px 22px;display:grid;gap:14px;text-align:center;animation:fadeUp .3s both;margin-bottom:env(safe-area-inset-bottom,0px);max-height:calc(100vh - 32px);overflow:auto}
+.modal .demo-tag{justify-self:center;background:var(--surface-2);color:var(--bamboo-deep)}
+.modal h2{font-size:24px;font-weight:900}
+.modal .loopmsg{padding:14px;border-radius:var(--r-md);background:color-mix(in srgb,var(--shoot) 20%,var(--surface));text-align:left;font-size:14px;display:flex;gap:12px;align-items:center}
+
+/* ---------- about ---------- */
+.issue{display:grid;gap:20px;align-items:center;padding:24px 20px}
+@media (min-width:900px){.issue{grid-template-columns:1fr 1.1fr;padding:32px 36px;gap:36px}.issue.rev .ill{order:2}}
+.issue .ill{border-radius:var(--r-md);overflow:hidden;aspect-ratio:4/3;max-width:100%;background:var(--surface-2)}
+.issue .ill svg{width:100%;height:100%;display:block}
+.issue .no{font-family:var(--font-num);font-weight:700;color:var(--amber);font-size:14px;letter-spacing:.1em}
+.issue h2{font-size:clamp(21px,4.4vw,28px);font-weight:900;margin-top:6px}
+.issue p{color:var(--ink-soft);margin-top:10px}
+.issue ul{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:8px}
+.issue li{display:flex;gap:10px;font-size:14.5px;align-items:flex-start}
+.issue li svg{flex:none;margin-top:4px;color:var(--bamboo)}
+.answer{padding:32px 20px;border-radius:32px;background:var(--bamboo);color:var(--on-primary);text-align:center;display:grid;gap:16px;justify-items:center}
+.answer h2{font-size:clamp(24px,5vw,36px);font-weight:900}
+.answer p{max-width:34em;opacity:.92}
+.answer .verbs4{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.answer .verbs4 span{background:color-mix(in srgb,var(--on-primary) 14%,transparent);border:1.5px solid color-mix(in srgb,var(--on-primary) 40%,transparent);padding:8px 18px;border-radius:999px;font-family:var(--font-display);font-weight:900;font-size:18px}
+.answer .btn-ghost{background:var(--surface);color:var(--ink);border-color:transparent}
+.answer .btn-ghost:hover{color:var(--bamboo-deep)}
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, createContext, useContext } = React;
+
+/* =====================================================================
+   1. DATA（ダミーデータ）— 機能追加時はここに項目を足していけばOK
+   ===================================================================== */
+
+const SEASONS = {
+  winter:  { label: "冬",     color: "var(--s-winter)" },
+  spring:  { label: "春",     color: "var(--s-spring)" },
+  dried:   { label: "乾燥後", color: "var(--s-dried)" },
+  allyear: { label: "通年",   color: "var(--s-allyear)" },
+};
+
+const EVENTS = [
+  {
+    id: "allyear-charcoal", season: "allyear", verb: "使う",
+    title: "竹炭・竹チップ活用体験",
+    catch: "炭窯をのぞいて、竹チップを畑へ。竹が「資源」に変わる瞬間を見に行こう。",
+    m: "10月", d: 18, w: "日", dateLabel: "2026年10月18日（日）", time: "10:00〜12:00",
+    place: "竹めぐり工房（阿南市内・ダミー）", placeNote: "駐車場あり",
+    fee: 300, feeNote: "竹炭の消臭袋1つ持ち帰り", capacity: 15, remaining: 6,
+    target: "どなたでも", targetNote: "小学生以下は保護者と一緒に",
+    content: "竹炭を焼く炭窯の見学と、竹チップを畑にまく体験。最後に竹炭を詰めた消臭袋をつくります。毎月第3日曜に開催。",
+    schedule: [["10:00","集合・竹めぐりの話"],["10:20","炭窯の見学"],["11:00","竹チップを畑にまく"],["11:30","竹炭の消臭袋づくり"]],
+    bring: ["汚れてもいい服","飲み物"],
+  },
+  {
+    id: "dried-craft", season: "dried", verb: "作る",
+    title: "竹細工・竹のコップづくり",
+    catch: "冬に伐って、半年乾かした竹で。のこぎりとやすりで自分だけのコップを。",
+    m: "11月", d: 14, w: "土", dateLabel: "2026年11月14日（土）", time: "13:30〜16:00",
+    place: "地域交流センター 工作室（阿南市内・ダミー）", placeNote: "",
+    fee: 1000, feeNote: "材料費込み・作品は持ち帰り", capacity: 12, remaining: 4,
+    target: "小学4年生以上", targetNote: "工具の使い方から教えます",
+    content: "乾燥を終えた竹を使って、コップと箸置きをつくります。竹細工の職人さんから、竹の割り方・削り方を教わります。",
+    schedule: [["13:30","乾燥した竹の見せ合い"],["13:50","コップを切り出す"],["14:40","やすりがけ・仕上げ"],["15:40","作品の撮影会"]],
+    bring: ["軍手","エプロン"],
+  },
+  {
+    id: "winter-cut", season: "winter", verb: "切る", featured: true,
+    title: "冬の竹林 伐採体験",
+    catch: "のこぎりで竹を伐って、竹林に光を入れる。伐った竹は竹炭になって、またあなたのもとへ。",
+    m: "12月", d: 12, w: "土", dateLabel: "2026年12月12日（土）", time: "9:00〜12:30",
+    place: "加茂谷エリアの協力竹林（阿南市・ダミー）", placeNote: "集合は最寄りの公民館前。送迎あり",
+    fee: 500, feeNote: "道具・ヘルメット貸出／竹のお椀で豚汁つき", capacity: 20, remaining: 8,
+    target: "中学生以上", targetNote: "小学生は保護者と一緒に「運搬・撮影」で参加できます",
+    content: "竹の水分が少なく、虫がつきにくい冬は伐採にいちばん向いた季節。竹林の持ち主さんと一緒に、混み合った竹を間引きます。伐った竹には「竹ID」がつき、その後どう活用されたかをアプリで追いかけられます。",
+    schedule: [["9:00","集合・安全講習"],["9:30","伐採・運搬（役割ごとに分かれて）"],["11:30","竹のお椀で豚汁"],["12:00","竹IDの登録・記念撮影"]],
+    bring: ["長袖・長ズボン","汚れてもいい靴","軍手（貸出あり）"],
+  },
+  {
+    id: "spring-shoot", season: "spring", verb: "食べる",
+    title: "筍掘り＆メンマづくり",
+    catch: "春の竹林は宝探し。掘った筍は、その日のうちにメンマへ。",
+    m: "4月", d: 10, w: "土", dateLabel: "2027年4月10日（土）", time: "9:00〜14:00",
+    place: "協力竹林・公民館の調理室（阿南市内・ダミー）", placeNote: "",
+    fee: 800, feeNote: "手づくりメンマ1瓶おみやげ", capacity: 24, remaining: 15,
+    target: "どなたでも", targetNote: "親子での参加大歓迎",
+    content: "伸びすぎる前の筍を掘ることも、竹林を守る大切な作業。掘りたての筍をゆでて、乳酸発酵させる阿南流のメンマづくりに挑戦します。",
+    schedule: [["9:00","集合・筍の見つけ方講座"],["9:30","筍掘り"],["11:30","筍ごはんでお昼"],["12:30","メンマの仕込み"]],
+    bring: ["長靴","エプロン","三角巾"],
+  },
+];
+
+const ROLES = [
+  { id: "cut",    label: "竹の伐採",       icon: "saw",       power: 3, desc: "のこぎりで竹を伐る。安全講習があるので初めてでも大丈夫。" },
+  { id: "carry",  label: "竹の運搬",       icon: "truck",     power: 3, desc: "伐った竹を集積所まで運ぶ。2人1組で協力します。" },
+  { id: "recept", label: "受付",           icon: "clipboard", power: 1, desc: "参加者を迎えて、名札と竹IDを配ります。" },
+  { id: "photo",  label: "写真・動画撮影", icon: "camera",    power: 1, desc: "作業のようすを記録。竹のゆくえページに載ります。" },
+  { id: "sns",    label: "SNS発信",        icon: "megaphone", power: 1, desc: "その日の竹林をSNSで発信して、次の参加者を呼ぶ。" },
+  { id: "craft",  label: "竹細工",         icon: "weave",     power: 2, desc: "細い竹で箸やコースターを試作。手先の器用さが活きます。" },
+  { id: "sell",   label: "販売",           icon: "store",     power: 1, desc: "会場で竹炭やメンマを販売。お客さんと話すのが好きな人に。" },
+  { id: "staff",  label: "イベント運営",   icon: "flag",      power: 2, desc: "進行・誘導・休憩の準備。全体を見渡す役割です。" },
+];
+
+const PRODUCTS = [
+  { id: "charcoal", art: "charcoal", tone: "var(--art-bg-3)", name: "阿南の竹炭（消臭・調湿用）", price: 1200, unit: "500g",
+    short: "冷蔵庫や靴箱に。竹のすき間が、においと湿気を吸い込みます。", fromMine: true, category: "竹炭・竹チップ",
+    long: "冬の伐採体験で伐った孟宗竹を半年かけて乾燥させ、炭窯で焼き上げた竹炭です。竹炭は木炭より細かな穴が多く、消臭・調湿に向いています。使い終わったら砕いて土に混ぜれば、土壌改良材として竹林や畑へ還せます。",
+    specs: [["内容量","500g（布袋入り）"],["原料","阿南市産 孟宗竹"],["使用目安","約1年（天日干しで繰り返し使えます）"],["竹ID","AN-26W-0117 ほか"]] },
+  { id: "chips", art: "chips", tone: "var(--art-bg-2)", name: "竹チップ（畑・花壇のマルチ用）", price: 800, unit: "5L",
+    short: "土の上にまくだけ。雑草をおさえて、土をふかふかに。", fromMine: true, category: "竹炭・竹チップ",
+    long: "炭にしにくい細い竹や枝を粉砕機でチップにしました。畑や花壇の土にかぶせると乾燥や雑草を防ぎ、やがて分解されて土にかえります。",
+    specs: [["内容量","5L"],["原料","阿南市産 竹（枝・細竹）"],["用途","マルチング・堆肥の材料"],["竹ID","AN-26W-0117 ほか"]] },
+  { id: "cup", art: "cup", tone: "var(--art-bg-1)", name: "竹のコップ", price: 1500, unit: "1個",
+    short: "竹の節を底にした、ひとつずつ形のちがうコップ。", fromMine: true, category: "竹製品",
+    long: "竹の節をそのまま底に使ったコップです。竹細工体験の参加者と地元の職人さんが一緒に仕上げました。軽くて落としても割れにくく、子どもにも使いやすい器です。",
+    specs: [["サイズ","直径 約7cm × 高さ 約10cm"],["仕上げ","食品用の植物オイル"],["お手入れ","手洗い・よく乾かす"],["竹ID","AN-26W-0117 ほか"]] },
+  { id: "basket", art: "basket", tone: "var(--art-bg-4)", name: "竹細工の手編みかご", price: 3800, unit: "1個",
+    short: "地元の職人さんが一本ずつ割いた竹ひごで編んだかご。", category: "竹細工",
+    long: "竹を細く割いた「竹ひご」を一本ずつ編み上げたかごです。野菜やパンを入れたり、小物入れにしたり。使うほどに色が飴色に変わっていきます。",
+    specs: [["サイズ","幅 約28cm × 高さ 約12cm"],["原料","阿南市産 真竹"],["制作","地元の竹細工職人"],["納期","受注後 約2週間"]] },
+  { id: "menma", art: "menma", tone: "var(--art-bg-2)", name: "阿南メンマ（瓶入り）", price: 680, unit: "120g",
+    short: "春に掘った筍を発酵させた、しゃきしゃき食感のメンマ。", category: "食品",
+    long: "春の筍掘りイベントで掘った筍を、ゆでて乳酸発酵させてからごま油で味つけしました。ラーメンはもちろん、ごはんのお供やおつまみにも。",
+    specs: [["内容量","120g"],["原材料","たけのこ（阿南市産）、ごま油、醤油、砂糖、唐辛子"],["賞味期限","製造から90日"],["保存","要冷蔵"]] },
+  { id: "chopsticks", art: "chopsticks", tone: "var(--art-bg-1)", name: "竹のお箸（2膳セット）", price: 900, unit: "2膳",
+    short: "軽くて、つかみやすい。毎日使える竹の道具。", category: "竹製品",
+    long: "竹細工体験で削り出した箸を、職人さんが仕上げました。竹は繊維がまっすぐで丈夫なので、細くても折れにくいのが特長です。",
+    specs: [["長さ","約22.5cm"],["仕上げ","食品用の植物オイル"],["セット","2膳"],["竹ID","AN-26W-0117 ほか"]] },
+];
+
+/* 過去に参加した伐採体験（デモ用のダミー記録） */
+const MY_PAST = {
+  bambooId: "AN-26W-0117",
+  eventTitle: "冬の竹林 伐採体験",
+  eventDate: "2026年1月24日（土）",
+  role: "竹の伐採・写真撮影",
+  myCulms: 3, people: 18, totalCulms: 64, purchases: 42,
+  stages: [
+    { icon: "saw",   when: "2026.01.24", title: "竹を伐りました", body: "あなたを含む18人で、混み合った竹64本を伐採。竹林に光が入りました。", metric: ["あなたが伐った竹", "3本"], state: "done" },
+    { icon: "drop",  when: "2026.02 – 06", title: "乾燥中でした", body: "竹を割って、風通しのよい倉庫で約5か月乾燥。", metric: ["含水率", "58% → 14%"], state: "done" },
+    { icon: "flame", when: "2026.07", title: "竹炭として加工されました", body: "太い竹は炭窯で竹炭に、細い竹や枝は粉砕して竹チップに。", metric: ["炭窯", "約700℃で3日間"], state: "done" },
+    { icon: "store", when: "2026.09 –", title: "商品として販売されています", body: "竹めぐりショップと地域のお店で販売中。イベントに参加していない人にも届いています。", metric: ["生まれた商品", "竹炭64袋・竹チップ120L"], state: "now" },
+    { icon: "home",  when: "いま", title: "誰かの暮らしで使われています", body: "購入された分だけ「もっと竹が必要」になり、次の伐採体験につながります。", metric: ["購入", "42件"], state: "live" },
+  ],
+  products: ["charcoal", "chips", "cup"],
+};
+
+const UPCOMING_STAGES = ["参加予定", "伐採", "乾燥", "加工", "販売"];
+
+const CYCLE = [
+  { short: "切る",         title: "竹を切る",                  body: "冬の竹林で、混み合った竹を間引きます。竹林に光と風が入り、地面の草花や新しい竹が元気になります。", fact: "冬は竹の水分が少なく、虫がつきにくい。伐採にいちばん向いた季節です。", icon: "saw" },
+  { short: "乾燥\n加工",   title: "乾燥・加工する",            body: "伐った竹は割って数か月乾かし、炭窯で焼いたり、粉砕機でチップにしたり、職人さんが削ったりします。", fact: "乾燥中の竹のようすも、竹IDで確認できます。", icon: "drop" },
+  { short: "生まれ\n変わる", title: "竹炭・竹チップ・竹製品に",   body: "太い竹は竹炭やコップ、細い竹と枝は竹チップ、春の筍はメンマに。1本の竹がいくつもの商品になります。", fact: "竹は捨てるところがほとんどない素材です。", icon: "sparkle" },
+  { short: "販売",         title: "アプリとお店で販売する",    body: "竹めぐりショップや地域のお店、イベント会場で販売します。どの竹林の、いつ伐った竹かが分かります。", fact: "売上の一部は、竹林整備の道具代や次のイベントに使われます。", icon: "store" },
+  { short: "購入\n利用",   title: "誰かが買って、使う",        body: "イベントに参加していない人も、竹炭を冷蔵庫に、竹チップを畑に。暮らしの中で竹に触れます。", fact: "「竹に興味がなかった人」が、竹を使う人に変わる入口です。", icon: "bag" },
+  { short: "需要が\n生まれる", title: "竹の需要が生まれる",      body: "商品が売れるほど「もっと竹が必要」になります。竹林を整備する理由が、地域の中に生まれます。", fact: "需要があると、竹林の持ち主さんも整備を続けやすくなります。", icon: "chart" },
+  { short: "竹林\n整備",   title: "竹林整備につながる",        body: "次の伐採体験へ。参加する人・使う人・買う人が増えるほど、竹林はめぐり続けます。", fact: "ここからまた「① 竹を切る」へ戻ります。", icon: "cycle" },
+];
+
+/* =====================================================================
+   2. APP STATE & ROUTER（ハッシュでページ遷移）
+   ===================================================================== */
+
+const AppCtx = createContext(null);
+const useApp = () => useContext(AppCtx);
+
+function parseHash() {
+  const h = (window.location.hash || "").replace(/^#/, "");
+  if (!h) return { page: "home" };
+  const prefixes = ["event", "apply", "product"];
+  for (const p of prefixes) {
+    if (h.startsWith(p + "-")) return { page: p, id: h.slice(p.length + 1) };
+  }
+  return { page: h };
+}
+
+const yen = (n) => "¥" + n.toLocaleString("ja-JP");
+const findEvent = (id) => EVENTS.find((e) => e.id === id);
+const findProduct = (id) => PRODUCTS.find((p) => p.id === id);
+
+/* =====================================================================
+   3. ICONS & ILLUSTRATIONS
+   ===================================================================== */
+
+const ICONS = {
+  home: "M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z",
+  calendar: "M4 6h16v14H4zM4 10h16M8 3v4M16 3v4",
+  sprout: "M12 21v-9M12 12c0-4 3-7 8-7 0 5-3 7-8 7zM12 14c0-3-2-5-7-5 0 4 2 5 7 5z",
+  bag: "M5 8h14l-1 12H6zM9 8V6a3 3 0 0 1 6 0v2",
+  info: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v6M12 7.5v.01",
+  arrowR: "M5 12h14M13 6l6 6-6 6",
+  arrowL: "M19 12H5M11 6l-6 6 6 6",
+  check: "M5 12.5l4.5 4.5L19 7",
+  pin: "M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12zM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z",
+  clock: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2",
+  yen: "M6 4l6 8 6-8M12 12v8M7 13h10M7 17h10",
+  users: "M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM2 21c0-4 3-6 7-6s7 2 7 6M16 3.5a4 4 0 0 1 0 7.5M18 15c2.5.5 4 2.5 4 6",
+  target: "M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
+  saw: "M4 16L15 5l4 4L8 20zM8 20l-4 1 1-4M10 11l1.5 1.5M13 8l1.5 1.5M7 14l1.5 1.5",
+  truck: "M3 6h11v10H3zM14 10h4l3 3v3h-7M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
+  clipboard: "M8 4h8v3H8zM6 5H5v16h14V5h-1M9 12h6M9 16h4",
+  camera: "M4 8h3l2-3h6l2 3h3v11H4zM12 17a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z",
+  megaphone: "M4 10v4h3l8 4V6L7 10zM18 9a4 4 0 0 1 0 6M7 14l1 5h2",
+  weave: "M4 4h16v16H4zM4 9.3h16M4 14.6h16M9.3 4v16M14.6 4v16",
+  store: "M4 9l1.5-5h13L20 9M4 9h16v1.5a3 3 0 0 1-5.3 1.8 3 3 0 0 1-5.4 0A3 3 0 0 1 4 10.5zM5 13v7h14v-7M10 20v-4h4v4",
+  flag: "M5 21V4M5 4h11l-2 4 2 4H5",
+  flame: "M12 21c-4 0-6.5-2.8-6.5-6 0-4 4-6 4-10 3 2 5 5 5 7 1-1 1.5-2 1.5-3 2 2 2.5 4 2.5 6 0 3.2-2.5 6-6.5 6z",
+  drop: "M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z",
+  x: "M6 6l12 12M18 6L6 18",
+  plus: "M12 5v14M5 12h14",
+  minus: "M5 12h14",
+  sparkle: "M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z",
+  bowl: "M3 11h18a9 9 0 0 1-18 0zM9 7c0-1.5 1.5-1.5 1.5-3M14 7c0-1.5 1.5-1.5 1.5-3",
+  cycle: "M20 12a8 8 0 0 1-14.3 4.9M4 12a8 8 0 0 1 14.3-4.9M18.5 3v4.2h-4.2M5.5 21v-4.2h4.2",
+  chart: "M4 20V10M10 20V4M16 20v-7M2 20h20",
+  heart: "M12 20s-8-4.7-8-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 2.5C20 15.3 12 20 12 20z",
+  leaf: "M5 19C5 10 10 5 20 4c0 10-5 15-14 15zM5 19l8-8",
+  hand: "M7 11V6a1.5 1.5 0 0 1 3 0v5M10 10V4.5a1.5 1.5 0 0 1 3 0V10M13 10V5.5a1.5 1.5 0 0 1 3 0V12M16 10a1.5 1.5 0 0 1 3 0v4a7 7 0 0 1-7 7h-.5A6.5 6.5 0 0 1 6 18l-2.5-4a1.5 1.5 0 0 1 2.5-1.6L7 14",
+};
+
+function Icon({ name, size = 22, stroke = 1.9, style }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      strokeWidth={stroke} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={style}>
+      <path d={ICONS[name] || ICONS.leaf} />
+    </svg>
+  );
+}
+
+/* 決定的な疑似乱数（イラストを毎回同じ形にする） */
+function rng(seed) { let s = seed; return () => (s = (s * 9301 + 49297) % 233280) / 233280; }
+
+/* 竹の一本 */
+function Stalk({ x, w, h, top = 0, tone, seg = 52, leaves = true, r }) {
+  const nodes = [];
+  for (let y = top + seg * (0.5 + r() * 0.6); y < h - 10; y += seg + r() * 14) nodes.push(y);
+  return (
+    <g>
+      <rect x={x} y={top} width={w} height={h - top} rx={w / 2.4} style={{ fill: tone }} />
+      <rect x={x + w * 0.18} y={top} width={w * 0.16} height={h - top} style={{ fill: "var(--g3)", opacity: .35 }} />
+      {nodes.map((y, i) => (
+        <rect key={i} x={x - 1.5} y={y} width={w + 3} height={3.2} rx={1.6} style={{ fill: "var(--node)", opacity: .55 }} />
+      ))}
+      {leaves && nodes.filter((_, i) => i % 2 === 1 && i < 4).map((y, i) => {
+        const dir = (i + Math.round(x)) % 2 ? 1 : -1;
+        return (
+          <g key={"l" + i} transform={`translate(${x + w / 2} ${y}) scale(${dir} 1)`}>
+            {[-28, -8, 14].map((a, j) => (
+              <path key={j} d="M0 0 Q 22 -7 50 0 Q 22 7 0 0Z" transform={`rotate(${a + r() * 10})`} style={{ fill: "var(--leaf)", opacity: .9 }} />
+            ))}
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function Grove({ seed = 7, count = 9, w = 600, h = 460, className, style }) {
+  const r = rng(seed);
+  const tones = ["var(--g1)", "var(--g2)", "var(--g3)"];
+  const stalks = Array.from({ length: count }, (_, i) => ({
+    x: (w / count) * i + r() * 30, sw: 12 + r() * 14, tone: tones[Math.floor(r() * 3)], top: r() * 40 - 20, seg: 46 + r() * 22,
+  }));
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="xMidYMax slice" className={className} style={style} aria-hidden="true">
+      {stalks.map((s, i) => <Stalk key={i} x={s.x} w={s.sw} h={h} top={s.top} tone={s.tone} seg={s.seg} r={r} />)}
+    </svg>
+  );
+}
+
+/* イベント用イラスト（季節モチーフ） */
+function EventArt({ season }) {
+  const r = rng(season.length * 13 + 3);
+  return (
+    <svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="400" height="200" style={{ fill: "transparent" }} />
+      <circle cx="320" cy="56" r="30" style={{ fill: season === "winter" ? "var(--surface)" : "var(--shoot)", opacity: .7 }} />
+      {[30, 70, 128, 250, 300, 356].map((x, i) => (
+        <Stalk key={i} x={x} w={12 + (i % 3) * 4} h={200} top={-10} tone={["var(--g1)", "var(--g2)", "var(--g3)"][i % 3]} seg={44} r={r} leaves={i % 2 === 0} />
+      ))}
+      <rect x="0" y="176" width="400" height="24" style={{ fill: "var(--g3)", opacity: .45 }} />
+      {season === "winter" && Array.from({ length: 22 }, (_, i) => (
+        <circle key={i} cx={(i * 47) % 400} cy={(i * 31) % 170} r={2.4 + (i % 3)} style={{ fill: "var(--surface)", opacity: .9 }} />
+      ))}
+      {season === "winter" && (
+        <g transform="translate(176 120)">
+          <rect x="0" y="40" width="70" height="12" rx="6" transform="rotate(-8)" style={{ fill: "var(--g2)" }} />
+          <rect x="10" y="54" width="60" height="11" rx="5.5" transform="rotate(-3)" style={{ fill: "var(--g3)" }} />
+        </g>
+      )}
+      {season === "spring" && [[190, 178], [222, 182], [160, 184]].map(([x, y], i) => (
+        <g key={i} transform={`translate(${x} ${y})`}>
+          <path d="M-14 0 Q0 -50 14 0Z" style={{ fill: "var(--art-wood)" }} />
+          <path d="M-9 -6 Q0 -40 9 -6" style={{ fill: "none", stroke: "var(--art-wood-dk)", strokeWidth: 2 }} />
+        </g>
+      ))}
+      {season === "dried" && (
+        <g transform="translate(180 106)">
+          <rect x="0" y="0" width="44" height="64" rx="6" style={{ fill: "var(--art-wood)" }} />
+          <rect x="-2" y="44" width="48" height="6" rx="3" style={{ fill: "var(--art-wood-dk)" }} />
+          <ellipse cx="22" cy="2" rx="22" ry="5" style={{ fill: "var(--art-wood-dk)" }} />
+        </g>
+      )}
+      {season === "allyear" && (
+        <g transform="translate(168 112)">
+          <path d="M0 64 L18 0 L52 0 L70 64Z" style={{ fill: "var(--art-char-hi)" }} />
+          <path d="M26 30 q9 -18 18 0 q-2 14 -9 14 q-7 0 -9 -14Z" style={{ fill: "var(--amber)" }} />
+        </g>
+      )}
+    </svg>
+  );
+}
+
+/* 商品イラスト */
+function ProductArt({ kind, tone }) {
+  const bg = <rect width="200" height="150" style={{ fill: tone }} />;
+  const shadow = <ellipse cx="100" cy="128" rx="62" ry="8" style={{ fill: "var(--ink)", opacity: .08 }} />;
+  const content = {
+    charcoal: (
+      <g>
+        <path d="M44 124 Q100 140 156 124 L148 100 Q100 112 52 100Z" style={{ fill: "var(--art-wood)" }} />
+        {[[56, 78, -12], [86, 70, 8], [116, 80, -4], [72, 92, 4], [104, 94, -10], [128, 96, 12]].map(([x, y, a], i) => (
+          <g key={i} transform={`rotate(${a} ${x + 16} ${y + 9})`}>
+            <rect x={x} y={y} width="36" height="18" rx="7" style={{ fill: "var(--art-char)" }} />
+            <rect x={x + 22} y={y} width="3" height="18" style={{ fill: "var(--art-char-hi)" }} />
+            <rect x={x + 3} y={y + 3} width="16" height="3" rx="1.5" style={{ fill: "var(--art-char-hi)", opacity: .7 }} />
+          </g>
+        ))}
+      </g>
+    ),
+    chips: (
+      <g>
+        {shadow}
+        <path d="M40 126 Q100 60 160 126Z" style={{ fill: "var(--art-straw)" }} />
+        {Array.from({ length: 34 }, (_, i) => {
+          const x = 52 + ((i * 37) % 96), y = 92 + ((i * 23) % 32) - Math.abs(x - 100) * 0.25;
+          return <rect key={i} x={x} y={y} width="12" height="5" rx="2" transform={`rotate(${(i * 47) % 180} ${x + 6} ${y + 2})`}
+            style={{ fill: i % 3 ? "var(--art-wood)" : "var(--art-wood-dk)" }} />;
+        })}
+        <path d="M112 50 q10 -16 24 -12 q-4 16 -24 12Z" style={{ fill: "var(--leaf)" }} />
+        <path d="M112 50 v30" style={{ stroke: "var(--g1)", strokeWidth: 3 }} />
+      </g>
+    ),
+    cup: (
+      <g>
+        {shadow}
+        <rect x="70" y="36" width="60" height="92" rx="8" style={{ fill: "var(--g3)" }} />
+        <rect x="70" y="36" width="60" height="92" rx="8" style={{ fill: "var(--art-wood)", opacity: .55 }} />
+        <rect x="78" y="40" width="8" height="84" rx="4" style={{ fill: "var(--surface)", opacity: .35 }} />
+        <rect x="66" y="104" width="68" height="8" rx="4" style={{ fill: "var(--art-wood-dk)" }} />
+        <ellipse cx="100" cy="37" rx="30" ry="6" style={{ fill: "var(--art-wood-dk)" }} />
+        <ellipse cx="100" cy="37" rx="25" ry="4" style={{ fill: "var(--art-straw)" }} />
+      </g>
+    ),
+    basket: (
+      <g>
+        {shadow}
+        <path d="M60 70 Q100 20 140 70" style={{ fill: "none", stroke: "var(--art-wood-dk)", strokeWidth: 6 }} />
+        <path d="M44 70 H156 L144 126 H56Z" style={{ fill: "var(--art-wood)" }} />
+        {Array.from({ length: 9 }, (_, i) => <path key={"v" + i} d={`M${54 + i * 12} 70 L${60 + i * 10.6} 126`} style={{ stroke: "var(--art-wood-dk)", strokeWidth: 2 }} />)}
+        {Array.from({ length: 5 }, (_, i) => <path key={"h" + i} d={`M${46 + i * 2.4} ${80 + i * 10} H${154 - i * 2.4}`} style={{ stroke: "var(--art-straw)", strokeWidth: 3.5 }} />)}
+        <rect x="40" y="64" width="120" height="9" rx="4.5" style={{ fill: "var(--art-wood-dk)" }} />
+      </g>
+    ),
+    menma: (
+      <g>
+        {shadow}
+        <rect x="66" y="44" width="68" height="84" rx="12" style={{ fill: "var(--art-glass)" }} />
+        {Array.from({ length: 9 }, (_, i) => (
+          <rect key={i} x={72 + (i % 3) * 18} y={64 + Math.floor(i / 3) * 18} width="16" height="7" rx="3" transform={`rotate(${(i * 29) % 40 - 20} ${80 + (i % 3) * 18} ${68 + Math.floor(i / 3) * 18})`} style={{ fill: "var(--art-amber)" }} />
+        ))}
+        <rect x="62" y="30" width="76" height="18" rx="5" style={{ fill: "var(--g1)" }} />
+        <rect x="76" y="88" width="48" height="26" rx="4" style={{ fill: "var(--surface)" }} />
+        <text x="100" y="106" textAnchor="middle" style={{ fill: "var(--g1)", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 13 }}>メンマ</text>
+      </g>
+    ),
+    chopsticks: (
+      <g>
+        {shadow}
+        <rect x="36" y="76" width="130" height="7" rx="3.5" transform="rotate(-14 100 80)" style={{ fill: "var(--art-wood)" }} />
+        <rect x="36" y="92" width="130" height="7" rx="3.5" transform="rotate(-10 100 96)" style={{ fill: "var(--art-wood-dk)" }} />
+        <rect x="40" y="108" width="34" height="14" rx="7" style={{ fill: "var(--g2)" }} />
+        <rect x="56" y="108" width="2.5" height="14" style={{ fill: "var(--node)", opacity: .6 }} />
+      </g>
+    ),
+  };
+  return (
+    <svg viewBox="0 0 200 150" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      {bg}
+      <circle cx="160" cy="30" r="42" style={{ fill: "var(--surface)", opacity: .35 }} />
+      {content[kind]}
+    </svg>
+  );
+}
+
+function Logo() {
+  return (
+    <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true">
+      <circle cx="17" cy="17" r="16" style={{ fill: "var(--bamboo)" }} />
+      <rect x="13" y="5" width="8" height="24" rx="4" style={{ fill: "var(--shoot)" }} />
+      <rect x="11.5" y="15" width="11" height="2.6" rx="1.3" style={{ fill: "var(--bamboo)" }} />
+      <path d="M21 11 q6 -4 9 -1 q-5 3 -9 1Z" style={{ fill: "var(--shoot)" }} />
+    </svg>
+  );
+}
+
+/* =====================================================================
+   4. SHARED COMPONENTS
+   ===================================================================== */
+
+function Header() {
+  const { route, go } = useApp();
+  const items = navItems();
+  return (
+    <header className="header">
+      <div className="header-in">
+        <button className="logo" onClick={() => go("home")} aria-label="竹めぐり ホームへ">
+          <Logo />
+          <span><b>竹めぐり</b><small>TAKE-MEGURI · ANAN</small></span>
+        </button>
+        <nav className="nav" aria-label="メインメニュー">
+          {items.map((it) => (
+            <button key={it.key} className={it.match.includes(route.page) ? "on" : ""} onClick={() => go(it.key)}>
+              <Icon name={it.icon} size={18} />{it.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+function navItems() {
+  return [
+    { key: "home", label: "ホーム", icon: "home", match: ["home"] },
+    { key: "events", label: "イベント", icon: "calendar", match: ["events", "event", "apply", "done"] },
+    { key: "mybamboo", label: "わたしの竹", icon: "sprout", match: ["mybamboo", "cycle"] },
+    { key: "shop", label: "ショップ", icon: "bag", match: ["shop", "product"] },
+    { key: "about", label: "竹めぐりとは", icon: "info", match: ["about"] },
+  ];
+}
+
+function TabBar() {
+  const { route, go } = useApp();
+  return (
+    <nav className="tabbar" aria-label="メインメニュー">
+      <div className="tabbar-in">
+        {navItems().map((it) => (
+          <button key={it.key} className={it.match.includes(route.page) ? "on" : ""} onClick={() => go(it.key)}>
+            <span className="tab-ico"><Icon name={it.icon} size={21} /></span>
+            {it.key === "about" ? "とは" : it.label}
+          </button>
+        ))}
+      </div>
+    </nav>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="wrap">
+        <span>竹めぐり ～切って、食べて、作って、買って、竹林をめぐらせる～</span>
+        <span>GCON2026 発表用プロトタイプ ／ 掲載データはすべてダミーです</span>
+      </div>
+    </footer>
+  );
+}
+
+function BackLink({ to, label }) {
+  const { go } = useApp();
+  return <button className="back" onClick={() => go(to)}><Icon name="arrowL" size={18} />{label}</button>;
+}
+
+function SeasonChip({ season }) {
+  const s = SEASONS[season];
+  return <span className="chip season" style={{ "--c": s.color }}>{s.label}</span>;
+}
+
+function Power({ level }) {
+  return (
+    <span className="power" aria-label={`体力めやす ${level} / 3`}>
+      体力めやす {[1, 2, 3].map((i) => <i key={i} className={i <= level ? "f" : ""} />)}
+    </span>
+  );
+}
+
+function EventCard({ ev }) {
+  const { go } = useApp();
+  const c = SEASONS[ev.season].color;
+  const filled = ((ev.capacity - ev.remaining) / ev.capacity) * 100;
+  return (
+    <button className="card ev fade-in" style={{ "--c": c }} onClick={() => go("event-" + ev.id)} aria-label={ev.title + "の詳細を見る"}>
+      <div className="ev-art">
+        <EventArt season={ev.season} />
+        <div className="ev-badges">
+          <SeasonChip season={ev.season} />
+          {ev.featured && <span className="chip featured-tag">おすすめ</span>}
+        </div>
+        <div className="ev-date"><span className="m">{ev.m}</span><span className="d">{ev.d}</span><span className="w">（{ev.w}）</span></div>
+      </div>
+      <div className="ev-body">
+        <h3>{ev.title}</h3>
+        <p className="ev-catch">{ev.catch}</p>
+        <div className="facts">
+          <span className="fact"><Icon name="pin" size={16} />{ev.place}</span>
+          <span className="fact"><Icon name="yen" size={16} />{yen(ev.fee)}　<Icon name="target" size={16} />{ev.target}</span>
+        </div>
+        <div className="seat">
+          <div className="seat-bar"><i style={{ width: filled + "%" }} /></div>
+          <div className="seat-txt"><span>定員 {ev.capacity}名</span><span>残り <b className="num">{ev.remaining}</b> 席</span></div>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function ProductCard({ p }) {
+  const { go } = useApp();
+  return (
+    <button className="card pd fade-in" onClick={() => go("product-" + p.id)} aria-label={p.name + "の詳細を見る"}>
+      <div className="pd-art">
+        <ProductArt kind={p.art} tone={p.tone} />
+        {p.fromMine && <span className="chip mine"><Icon name="sprout" size={14} />あなたが関わった竹</span>}
+      </div>
+      <div className="pd-b">
+        <span className="muted" style={{ fontSize: 12, fontWeight: 700 }}>{p.category}</span>
+        <h3>{p.name}</h3>
+        <p>{p.short}</p>
+        <div className="price num">{yen(p.price)}<small>{p.unit}・税込</small></div>
+      </div>
+    </button>
+  );
+}
+
+/* 循環図（中心機能） */
+function CycleDiagram({ active, onSelect, size = 400 }) {
+  const n = CYCLE.length, cx = 200, cy = 200, R = 140;
+  const pos = (i) => {
+    const a = (-90 + (360 / n) * i) * Math.PI / 180;
+    return [cx + R * Math.cos(a), cy + R * Math.sin(a), a];
+  };
+  const reduce = typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return (
+    <svg className="cycle-svg" viewBox="0 0 400 400" role="img" aria-label="竹めぐりの循環図" style={{ maxWidth: size }}>
+      <circle cx={cx} cy={cy} r={R} style={{ fill: "none", stroke: "var(--surface-2)", strokeWidth: 22 }} />
+      <circle cx={cx} cy={cy} r={R} style={{ fill: "none", stroke: "var(--g3)", strokeWidth: 2, strokeDasharray: "2 8", strokeLinecap: "round" }} />
+      {CYCLE.map((_, i) => {
+        const a = (-90 + (360 / n) * (i + 0.5));
+        const rad = a * Math.PI / 180;
+        const x = cx + R * Math.cos(rad), y = cy + R * Math.sin(rad);
+        return <path key={"a" + i} d="M-6 -7 L5 0 L-6 7" transform={`translate(${x} ${y}) rotate(${a + 90})`}
+          style={{ fill: "none", stroke: "var(--bamboo)", strokeWidth: 3, strokeLinecap: "round", strokeLinejoin: "round" }} />;
+      })}
+      {!reduce && (
+        <circle r="7" style={{ fill: "var(--amber)" }}>
+          <animateMotion dur="14s" repeatCount="indefinite" path={`M ${cx} ${cy - R} A ${R} ${R} 0 1 1 ${cx - 0.01} ${cy - R}`} />
+        </circle>
+      )}
+      <g>
+        <circle cx={cx} cy={cy} r="74" style={{ fill: "var(--surface)", stroke: "var(--line)", strokeWidth: 1.5 }} />
+        <text x={cx} y={cy - 8} textAnchor="middle" style={{ fill: "var(--bamboo-deep)", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 26 }}>竹めぐり</text>
+        <text x={cx} y={cy + 18} textAnchor="middle" style={{ fill: "var(--ink-soft)", fontSize: 11.5, fontWeight: 700 }}>切る人・使う人・買う人で</text>
+        <text x={cx} y={cy + 35} textAnchor="middle" style={{ fill: "var(--ink-soft)", fontSize: 11.5, fontWeight: 700 }}>竹林をめぐらせる</text>
+      </g>
+      {CYCLE.map((s, i) => {
+        const [x, y] = pos(i);
+        const on = i === active;
+        const lines = s.short.split("\n");
+        return (
+          <g key={i} className="cnode" onClick={() => onSelect(i)} role="button" tabIndex="0" aria-label={`${i + 1}. ${s.title}`}
+             onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onSelect(i); } }}>
+            <circle cx={x} cy={y} r={on ? 38 : 34} style={{ fill: on ? "var(--bamboo)" : "var(--surface)", stroke: on ? "var(--bamboo)" : "var(--g3)", strokeWidth: 2.5 }} />
+            <text x={x} y={y - 15 - (lines.length - 1) * 6} textAnchor="middle" style={{ fill: on ? "var(--on-primary)" : "var(--ink-soft)", fontFamily: "var(--font-num)", fontSize: 11, fontWeight: 700 }}>{i + 1}</text>
+            {lines.map((l, j) => (
+              <text key={j} x={x} y={y + 4 + j * 15 - (lines.length - 1) * 6} textAnchor="middle"
+                style={{ fill: on ? "var(--on-primary)" : "var(--ink)", fontSize: 13.5 }}>{l}</text>
+            ))}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/* =====================================================================
+   5. PAGES
+   ===================================================================== */
+
+function HomePage() {
+  const { go } = useApp();
+  const verbs = [
+    { v: "切る", sub: "冬", icon: "saw", c: "var(--s-winter)", text: "竹林で伐採体験。竹林に光を入れる。", to: "event-winter-cut" },
+    { v: "食べる", sub: "春", icon: "bowl", c: "var(--s-spring)", text: "筍を掘って、メンマづくり。", to: "event-spring-shoot" },
+    { v: "作る", sub: "乾燥後", icon: "hand", c: "var(--s-dried)", text: "乾かした竹で、コップや竹細工。", to: "event-dried-craft" },
+    { v: "買う", sub: "いつでも", icon: "bag", c: "var(--amber)", text: "竹炭・竹チップ・竹製品を暮らしに。", to: "shop" },
+  ];
+  return (
+    <div>
+      <section className="hero">
+        <Grove className="hero-grove" seed={11} count={8} />
+        <div className="wrap hero-in">
+          <div className="fade-in">
+            <span className="eyebrow">阿南市の竹林から始まる、地域めぐりアプリ</span>
+            <h1><ruby>竹めぐり<rt>たけめぐり</rt></ruby></h1>
+            <p className="tagline">
+              ～<span className="v">切って</span>、<span className="v">食べて</span>、<span className="v">作って</span>、<span className="v">買って</span>、<br />竹林をめぐらせる～
+            </p>
+            <p className="lead">放っておかれた竹林を、みんなの「やってみたい」で明るく。伐った竹は竹炭や竹細工に生まれ変わり、このアプリでまた誰かの手に届きます。</p>
+            <div className="hero-ctas">
+              <button className="btn btn-primary btn-block" onClick={() => go("events")}><Icon name="calendar" />イベントに参加する</button>
+              <div className="row">
+                <button className="btn btn-amber" onClick={() => go("shop")}><Icon name="bag" />竹製品を買う</button>
+                <button className="btn btn-ghost" onClick={() => go("about")}><Icon name="info" />竹めぐりとは</button>
+              </div>
+            </div>
+          </div>
+          <div className="hero-stats" aria-label="今シーズンの竹めぐり（ダミーデータ）">
+            <div className="stat"><b className="num">64<small>本</small></b><span>この冬に伐った竹</span></div>
+            <div className="stat"><b className="num">6<small>種類</small></b><span>竹から生まれた商品</span></div>
+            <div className="stat"><b className="num">132<small>人</small></b><span>竹めぐりに参加した人</span></div>
+          </div>
+        </div>
+      </section>
+
+      <div className="wrap">
+        <section className="section">
+          <div className="sec-head">
+            <div>
+              <span className="eyebrow">4つの関わり方</span>
+              <h2>竹に触れる入口は、ひとつじゃない。</h2>
+            </div>
+          </div>
+          <div className="verbs">
+            {verbs.map((v, i) => (
+              <button key={v.v} className="verb fade-in" style={{ "--c": v.c, animationDelay: i * 60 + "ms" }} onClick={() => go(v.to)}>
+                <span className="step">{v.sub}</span>
+                <span className="vi"><Icon name={v.icon} size={26} /></span>
+                <h3>{v.v}</h3>
+                <p>{v.text}</p>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="sec-head">
+            <div>
+              <span className="eyebrow">開催予定のイベント</span>
+              <h2>次の竹めぐり</h2>
+            </div>
+            <button className="link-btn" onClick={() => go("events")}>すべてのイベント<Icon name="arrowR" size={18} /></button>
+          </div>
+          <div className="grid g3">
+            {EVENTS.slice(0, 3).map((ev) => <EventCard key={ev.id} ev={ev} />)}
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="loop-band">
+            <div>
+              <span className="eyebrow">切って終わり、じゃない</span>
+              <h2>あなたが伐った竹は、<br />誰かの暮らしへめぐります。</h2>
+              <p>伐った竹には「竹ID」がつきます。乾燥、竹炭への加工、販売、そして誰かが使うまで。竹のその後をアプリで追いかけられます。</p>
+              <div className="btn-row" style={{ marginTop: 20 }}>
+                <button className="btn btn-primary" onClick={() => go("cycle")}><Icon name="cycle" />竹のゆくえを見る</button>
+                <button className="btn btn-ghost" onClick={() => go("mybamboo")}><Icon name="sprout" />わたしの竹</button>
+              </div>
+            </div>
+            <CycleMini />
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="sec-head">
+            <div>
+              <span className="eyebrow">力仕事だけじゃない</span>
+              <h2>自分に合った関わり方を選べます。</h2>
+              <p>撮るのが好き、話すのが好き、手先が器用。どれも竹林整備に欠かせない役割です。</p>
+            </div>
+          </div>
+          <div className="roles-cloud">
+            {ROLES.map((r) => <span key={r.id} className="chip" style={{ padding: "8px 14px", fontSize: 14 }}><Icon name={r.icon} size={16} />{r.label}</span>)}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function CycleMini() {
+  const [a, setA] = useState(0);
+  useEffect(() => {
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduce) return;
+    const t = setInterval(() => setA((x) => (x + 1) % CYCLE.length), 2200);
+    return () => clearInterval(t);
+  }, []);
+  return <CycleDiagram active={a} onSelect={setA} size={380} />;
+}
+
+function EventsPage() {
+  const [f, setF] = useState("all");
+  const list = EVENTS.filter((e) => f === "all" || e.season === f);
+  return (
+    <div className="wrap">
+      <div className="page-head">
+        <span className="eyebrow">イベント一覧</span>
+        <h1>季節ごとの竹めぐり</h1>
+        <p>冬に伐って、春に食べて、乾かしたら作る。竹林の一年に合わせてイベントを開いています。</p>
+        <div className="filters" role="tablist" aria-label="季節で絞り込む">
+          <button className={f === "all" ? "on" : ""} onClick={() => setF("all")}>すべて</button>
+          {Object.entries(SEASONS).map(([k, s]) => (
+            <button key={k} className={f === k ? "on" : ""} onClick={() => setF(k)}>{s.label}</button>
+          ))}
+        </div>
+      </div>
+      <div className="grid g3" style={{ marginTop: 16 }}>
+        {list.map((ev) => <EventCard key={ev.id} ev={ev} />)}
+      </div>
+    </div>
+  );
+}
+
+function EventDetailPage({ id }) {
+  const { go } = useApp();
+  const ev = findEvent(id);
+  if (!ev) return <NotFound />;
+  const c = SEASONS[ev.season].color;
+  const rows = [
+    ["calendar", "日時", ev.dateLabel, ev.time],
+    ["pin", "場所", ev.place, ev.placeNote],
+    ["yen", "参加費", yen(ev.fee), ev.feeNote],
+    ["users", "定員", `${ev.capacity}名（残り ${ev.remaining}席）`, ""],
+    ["target", "対象", ev.target, ev.targetNote],
+  ];
+  return (
+    <div className="wrap" style={{ "--c": c }}>
+      <BackLink to="events" label="イベント一覧へ" />
+      <div className="detail">
+        <div style={{ display: "grid", gap: 20 }}>
+          <div className="detail-art"><EventArt season={ev.season} /></div>
+          <div>
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+              <SeasonChip season={ev.season} />
+              <span className="chip">{ev.verb}</span>
+              {ev.featured && <span className="chip featured-tag">おすすめ</span>}
+            </div>
+            <h1 style={{ fontSize: "clamp(26px,5.6vw,38px)", fontWeight: 900, marginTop: 12 }}>{ev.title}</h1>
+            <p className="muted" style={{ marginTop: 8 }}>{ev.catch}</p>
+          </div>
+          <div className="card box">
+            <h3><Icon name="leaf" />イベント内容</h3>
+            <div className="prose"><p>{ev.content}</p></div>
+            <div className="timeline-s">
+              {ev.schedule.map(([t, s]) => (
+                <div key={t} className="ts"><span className="t">{t}</span><span>{s}</span></div>
+              ))}
+            </div>
+          </div>
+          <div className="card box">
+            <h3><Icon name="cycle" />このイベントの竹のゆくえ</h3>
+            <p className="muted" style={{ fontSize: 14.5 }}>イベントで扱った竹は、竹IDで「その後」を追いかけられます。</p>
+            <div className="mini-flow">
+              <span>伐採</span><i>→</i><span>乾燥</span><i>→</i><span>竹炭・竹チップ</span><i>→</i><span>ショップで販売</span><i>→</i><span>誰かの暮らしへ</span>
+            </div>
+          </div>
+        </div>
+        <aside className="aside-sticky">
+          <div className="card">
+            <dl className="info-table">
+              {rows.map(([ic, k, v, note]) => (
+                <div className="info-row" key={k}>
+                  <dt><Icon name={ic} size={16} />{k}</dt>
+                  <dd>{v}{note && <small>{note}</small>}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div className="card box">
+            <h3><Icon name="hand" />選べる役割</h3>
+            <div className="roles-cloud" style={{ marginTop: 0 }}>
+              {ROLES.map((r) => <span key={r.id} className="chip">{r.label}</span>)}
+            </div>
+            <p className="muted" style={{ fontSize: 13.5, marginTop: 12 }}>持ち物：{ev.bring.join("・")}</p>
+          </div>
+          <button className="btn btn-primary btn-block" onClick={() => go("apply-" + ev.id)}>申し込む<Icon name="arrowR" /></button>
+        </aside>
+      </div>
+      <div className="cta-bar">
+        <div className="price num">{yen(ev.fee)}<small>残り {ev.remaining}席</small></div>
+        <button className="btn btn-primary" onClick={() => go("apply-" + ev.id)}>申し込む<Icon name="arrowR" /></button>
+      </div>
+    </div>
+  );
+}
+
+function ApplyPage({ id }) {
+  const { go, setRegistration } = useApp();
+  const ev = findEvent(id);
+  const [step, setStep] = useState(1);
+  const [roles, setRoles] = useState([]);
+  const [form, setForm] = useState({ name: "竹めぐり 花子", age: "大学生", count: 1, note: "" });
+  if (!ev) return <NotFound />;
+  const toggle = (rid) => setRoles((rs) => (rs.includes(rid) ? rs.filter((x) => x !== rid) : [...rs, rid]));
+  const roleLabels = ROLES.filter((r) => roles.includes(r.id)).map((r) => r.label);
+  const submit = () => {
+    setRegistration({ eventId: ev.id, roles: roleLabels, ...form, bambooId: "AN-26W-0142" });
+    go("done");
+  };
+  return (
+    <div className="wrap">
+      <button className="back" onClick={() => (step === 2 ? setStep(1) : go("event-" + ev.id))}>
+        <Icon name="arrowL" size={18} />{step === 2 ? "役割の選択にもどる" : "イベント詳細へ"}
+      </button>
+      <div className="page-head" style={{ paddingTop: 8 }}>
+        <span className="eyebrow">参加申し込み</span>
+        <h1>{ev.title}</h1>
+        <p>{ev.dateLabel} {ev.time}</p>
+      </div>
+      <div className="steps" aria-label="申し込みの進み具合">
+        <div className={"s on"}><i />1 役割を選ぶ</div>
+        <div className={"s" + (step >= 2 ? " on" : "")}><i />2 参加者情報</div>
+        <div className="s"><i />3 完了</div>
+      </div>
+
+      {step === 1 && (
+        <div className="fade-in">
+          <div className="notice">
+            <span className="ni"><Icon name="hand" size={24} /></span>
+            <div>
+              <b>自分に合った関わり方を選べます</b>
+              <p>竹林整備は力仕事だけではありません。やってみたい役割をいくつでも選んでください。当日の相談で変更もできます。</p>
+            </div>
+          </div>
+          <h2 style={{ fontSize: 20, fontWeight: 900, marginTop: 28 }}>やってみたい役割は？</h2>
+          <div className="roles">
+            {ROLES.map((r) => {
+              const on = roles.includes(r.id);
+              return (
+                <button key={r.id} className={"role" + (on ? " on" : "")} onClick={() => toggle(r.id)} aria-pressed={on}>
+                  <span className="tick">{on && <Icon name="check" size={14} stroke={3} />}</span>
+                  <span className="ri"><Icon name={r.icon} size={22} /></span>
+                  <b>{r.label}</b>
+                  <p>{r.desc}</p>
+                  <Power level={r.power} />
+                </button>
+              );
+            })}
+          </div>
+          <div className="btn-row">
+            <button className="btn btn-primary" disabled={roles.length === 0} onClick={() => setStep(2)}>
+              {roles.length === 0 ? "役割を1つ以上選んでください" : `${roles.length}つの役割で次へ`}<Icon name="arrowR" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 2 && (
+        <div className="fade-in" style={{ display: "grid", gap: 24 }}>
+          <form className="form" onSubmit={(e) => { e.preventDefault(); submit(); }}>
+            <div className="field">
+              <label htmlFor="f-name">お名前</label>
+              <input id="f-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
+              <small>デモ用の入力例が入っています。</small>
+            </div>
+            <div className="field">
+              <label htmlFor="f-age">年代</label>
+              <select id="f-age" value={form.age} onChange={(e) => setForm({ ...form, age: e.target.value })}>
+                {["小学生", "中学生・高校生", "大学生", "20〜30代", "40〜50代", "60代以上"].map((a) => <option key={a}>{a}</option>)}
+              </select>
+            </div>
+            <div className="field">
+              <label id="f-count-l">参加人数</label>
+              <div className="stepper" role="group" aria-labelledby="f-count-l">
+                <button type="button" aria-label="減らす" onClick={() => setForm({ ...form, count: Math.max(1, form.count - 1) })}><Icon name="minus" /></button>
+                <span className="num">{form.count}</span>
+                <button type="button" aria-label="増やす" onClick={() => setForm({ ...form, count: Math.min(4, form.count + 1) })}><Icon name="plus" /></button>
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="f-note">ひとこと（任意）</label>
+              <textarea id="f-note" rows="2" placeholder="例：竹林に入るのは初めてです" value={form.note} onChange={(e) => setForm({ ...form, note: e.target.value })} />
+            </div>
+            <div className="card summary">
+              <div className="r"><span>イベント</span><span>{ev.title}</span></div>
+              <div className="r"><span>日時</span><span>{ev.dateLabel}</span></div>
+              <div className="r"><span>選んだ役割</span><span>{roleLabels.join("・")}</span></div>
+              <div className="r"><span>参加費</span><span className="num">{yen(ev.fee * form.count)}（当日払い）</span></div>
+            </div>
+            <div className="btn-row" style={{ marginTop: 4 }}>
+              <button type="submit" className="btn btn-primary"><Icon name="check" />この内容で申し込む</button>
+            </div>
+          </form>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function DonePage() {
+  const { go, registration } = useApp();
+  const ev = findEvent(registration?.eventId || "winter-cut");
+  const reg = registration || { roles: ["竹の伐採"], name: "ゲスト", bambooId: "AN-26W-0142" };
+  return (
+    <div className="wrap">
+      <div className="done">
+        <div className="done-badge">
+          <div className="leafburst" aria-hidden="true">
+            {Array.from({ length: 10 }, (_, i) => <span key={i} style={{ "--a": i * 36 + "deg", animationDelay: "120ms" }} />)}
+          </div>
+          <div className="ring"><Icon name="check" size={56} stroke={3} /></div>
+        </div>
+        <div className="steps" style={{ width: "100%", margin: "4px auto 0" }}>
+          <div className="s on"><i />1 役割を選ぶ</div><div className="s on"><i />2 参加者情報</div><div className="s on"><i />3 完了</div>
+        </div>
+        <h1>申し込み完了！</h1>
+        <p className="muted">{reg.name} さん、{ev.dateLabel}の「{ev.title}」でお待ちしています。<br />役割：{reg.roles.join("・")}</p>
+        <div className="bamboo-id">
+          <span className="eyebrow">あなたの竹ID を発行しました</span>
+          <span className="id">{reg.bambooId}</span>
+          <span className="muted" style={{ fontSize: 14 }}>当日あなたが伐った竹にこのIDがつきます。乾燥・加工・販売まで、竹のその後をアプリで追いかけられます。</span>
+        </div>
+        <button className="btn btn-primary btn-block" onClick={() => go("mybamboo")}><Icon name="sprout" />あなたが参加した竹を見る</button>
+        <button className="link-btn" onClick={() => go("home")}>ホームにもどる</button>
+      </div>
+    </div>
+  );
+}
+
+function MyBambooPage() {
+  const { go, registration } = useApp();
+  const up = registration ? findEvent(registration.eventId) : null;
+  const p = MY_PAST;
+  return (
+    <div className="wrap">
+      <div className="page-head">
+        <span className="eyebrow">わたしの竹</span>
+        <h1>あなたが参加した竹</h1>
+        <p>伐った竹が、いまどこで何になっているか。「切って終わり」じゃない竹のその後です。</p>
+      </div>
+
+      {up ? (
+        <div className="card up-card fade-in" style={{ marginTop: 8 }}>
+          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+            <div>
+              <span className="chip" style={{ background: "var(--shoot)", color: "var(--on-shoot)" }}>NEW　参加予定</span>
+              <h3 style={{ fontSize: 19, fontWeight: 900, marginTop: 8 }}>{up.title}</h3>
+              <p className="muted" style={{ fontSize: 14 }}>{up.dateLabel}　役割：{registration.roles.join("・")}</p>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <span className="muted" style={{ fontSize: 12, display: "block" }}>竹ID</span>
+              <b className="num" style={{ fontSize: 20, color: "var(--bamboo-deep)" }}>{registration.bambooId}</b>
+            </div>
+          </div>
+          <div className="mini-track">
+            {UPCOMING_STAGES.map((s, i) => <div key={s} className={"m" + (i === 0 ? " on" : "")}><i />{s}</div>)}
+          </div>
+        </div>
+      ) : (
+        <div className="card up-card" style={{ marginTop: 8 }}>
+          <p className="muted">イベントに申し込むと、ここに「これから伐る竹」が追加されます。</p>
+          <button className="btn btn-ghost btn-sm" style={{ justifySelf: "start" }} onClick={() => go("event-winter-cut")}>冬の伐採体験を見る</button>
+        </div>
+      )}
+
+      <section className="section" style={{ marginTop: 32 }}>
+        <div className="mb-hero">
+          <div>
+            <span className="eyebrow">あなたが参加した{p.eventTitle.replace("竹林 ", "")}</span>
+            <h2 style={{ fontSize: "clamp(22px,4.6vw,30px)", fontWeight: 900, marginTop: 8 }}>{p.eventDate}<br />{p.eventTitle}</h2>
+            <p className="muted" style={{ marginTop: 6, fontSize: 14 }}>竹ID <b className="num" style={{ color: "var(--ink)" }}>{p.bambooId}</b>　役割：{p.role}</p>
+            <div style={{ marginTop: 16, display: "grid", gap: 6 }}>
+              <span className="muted" style={{ fontSize: 13, fontWeight: 700 }}>この竹は現在</span>
+              <span className="status-big" style={{ justifySelf: "start" }}><span className="pulse" />販売中</span>
+            </div>
+          </div>
+          <div className="mb-meta">
+            <div><b className="num">{p.myCulms}<small>本</small></b><span>あなたが伐った竹</span></div>
+            <div><b className="num">{p.totalCulms}<small>本</small></b><span>{p.people}人で伐った竹</span></div>
+            <div><b className="num">{p.purchases}<small>件</small></b><span>購入された数</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section className="section" style={{ marginTop: 32 }}>
+        <div className="sec-head"><div><span className="eyebrow">竹のその後</span><h2>伐ってから、いままで</h2></div></div>
+        <div className="track">
+          {p.stages.map((s, i) => (
+            <div key={i} className={"tk " + s.state}>
+              <div className="tk-rail"><span className="tk-dot"><Icon name={s.icon} size={20} /></span></div>
+              <div className="tk-card">
+                <span className="when">{s.when}</span>
+                <h4>{s.title}{s.state === "now" && <span className="chip mine" style={{ marginLeft: 8, verticalAlign: "middle", fontSize: 12 }}>いまここ</span>}</h4>
+                <p>{s.body}</p>
+                <span className="metric"><span className="muted">{s.metric[0]}</span><span className="num">{s.metric[1]}</span></span>
+                {s.state === "now" && (
+                  <div style={{ marginTop: 12 }}>
+                    <button className="btn btn-amber btn-sm" onClick={() => go("product-charcoal")}><Icon name="bag" size={18} />販売中の竹炭を見る</button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="section" style={{ marginTop: 24 }}>
+        <div className="sec-head"><div><span className="eyebrow">あなたの竹から生まれた商品</span><h2>いま、ショップに並んでいます</h2></div></div>
+        <div className="grid g3">
+          {p.products.map((id) => <ProductCard key={id} p={findProduct(id)} />)}
+        </div>
+      </section>
+
+      <div className="btn-row" style={{ marginTop: 32 }}>
+        <button className="btn btn-primary" onClick={() => go("cycle")}><Icon name="cycle" />竹の加工・活用状況を見る</button>
+        <button className="btn btn-ghost" onClick={() => go("shop")}><Icon name="bag" />竹製品ショップへ</button>
+      </div>
+    </div>
+  );
+}
+
+function CyclePage() {
+  const { go, purchaseCount } = useApp();
+  const [a, setA] = useState(0);
+  const s = CYCLE[a];
+  const uses = [
+    { kind: "charcoal", tone: "var(--art-bg-3)", name: "竹炭", text: "太い竹を炭窯で。消臭・調湿・土壌改良に。", to: "product-charcoal" },
+    { kind: "chips", tone: "var(--art-bg-2)", name: "竹チップ", text: "細い竹や枝を粉砕。畑や花壇のマルチに。", to: "product-chips" },
+    { kind: "cup", tone: "var(--art-bg-1)", name: "竹製品・竹細工", text: "乾かした竹で、コップやかご、お箸に。", to: "product-cup" },
+    { kind: "menma", tone: "var(--art-bg-2)", name: "メンマ", text: "春の筍を発酵させて、食卓へ。", to: "product-menma" },
+  ];
+  return (
+    <div className="wrap">
+      <BackLink to="mybamboo" label="わたしの竹へ" />
+      <div className="page-head" style={{ paddingTop: 8 }}>
+        <span className="eyebrow">竹の加工・活用</span>
+        <h1>切った竹の、その後。</h1>
+        <p>竹めぐりは、竹を切る人・使う人・買う人がつながる循環です。図の番号をタップすると、それぞれの段階を詳しく見られます。</p>
+      </div>
+      <div className="cycle-wrap" style={{ marginTop: 12 }}>
+        <CycleDiagram active={a} onSelect={setA} />
+        <div className="card cstep fade-in" key={a}>
+          <span className="no">STEP {a + 1} / {CYCLE.length}</span>
+          <h3>{s.title}</h3>
+          <p className="muted">{s.body}</p>
+          {a === 4 && <p style={{ fontSize: 14, fontWeight: 700 }}>このアプリからの購入：<span className="num">{42 + purchaseCount}</span>件</p>}
+          <div className="fact-box"><Icon name={s.icon} size={20} style={{ color: "var(--bamboo)", flex: "none" }} /><span>{s.fact}</span></div>
+          <div className="cstep-nav">
+            <button className="btn btn-ghost btn-sm" onClick={() => setA((a - 1 + CYCLE.length) % CYCLE.length)} aria-label="前の段階"><Icon name="arrowL" size={18} /></button>
+            <button className="btn btn-primary btn-sm" style={{ flex: 1 }} onClick={() => setA((a + 1) % CYCLE.length)}>
+              {a === CYCLE.length - 1 ? "① にもどって、めぐる" : "次の段階へ"}<Icon name="arrowR" size={18} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <section className="section">
+        <div className="sec-head"><div><span className="eyebrow">竹の生まれ変わり</span><h2>1本の竹から、いろいろな商品に</h2></div></div>
+        <div className="uses">
+          {uses.map((u) => (
+            <button key={u.name} className="card use" onClick={() => go(u.to)}>
+              <div className="art"><ProductArt kind={u.kind} tone={u.tone} /></div>
+              <div className="b"><b>{u.name}</b><p>{u.text}</p></div>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="loop-band">
+          <div>
+            <span className="eyebrow">あなたも、めぐりの一部に</span>
+            <h2>買うことも、竹林整備のひとつ。</h2>
+            <p>イベントに参加していなくても大丈夫。竹製品を買って使うことで、竹の需要が生まれ、次の竹林整備につながります。</p>
+          </div>
+          <div style={{ display: "grid", gap: 12 }}>
+            <button className="btn btn-amber btn-block" onClick={() => go("shop")}><Icon name="bag" />竹製品ショップへ</button>
+            <button className="btn btn-ghost btn-block" onClick={() => go("events")}><Icon name="calendar" />イベントに参加する</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function ShopPage() {
+  const cats = ["すべて", ...Array.from(new Set(PRODUCTS.map((p) => p.category)))];
+  const [c, setC] = useState("すべて");
+  const list = PRODUCTS.filter((p) => c === "すべて" || p.category === c);
+  return (
+    <div className="wrap">
+      <div className="page-head">
+        <span className="eyebrow">竹製品ショップ</span>
+        <h1>阿南の竹を、暮らしに。</h1>
+        <p>竹めぐりのイベントで伐った竹・掘った筍から生まれた商品です。</p>
+        <div className="shop-banner">
+          <span className="ni"><Icon name="heart" size={22} /></span>
+          <p><b>イベントに参加していなくても購入できます。</b><br />あなたの1つの購入が竹の需要になり、次の竹林整備につながります。</p>
+        </div>
+        <div className="filters" role="tablist" aria-label="カテゴリで絞り込む">
+          {cats.map((k) => <button key={k} className={c === k ? "on" : ""} onClick={() => setC(k)}>{k}</button>)}
+        </div>
+      </div>
+      <div className="grid g3" style={{ marginTop: 16 }}>
+        {list.map((p) => <ProductCard key={p.id} p={p} />)}
+      </div>
+    </div>
+  );
+}
+
+function ProductDetailPage({ id }) {
+  const { go, addPurchase } = useApp();
+  const p = findProduct(id);
+  const [qty, setQty] = useState(1);
+  const [open, setOpen] = useState(false);
+  if (!p) return <NotFound />;
+  const buy = () => { addPurchase(qty); setOpen(true); };
+  const story = p.id === "menma"
+    ? [["sprout", "筍掘り", "2026.04"], ["bowl", "下ゆで・発酵", "2026.04–05"], ["sparkle", "味つけ・瓶詰め", "2026.06"], ["store", "販売中", "2026.07 –"]]
+    : [["saw", "伐採", "2026.01"], ["drop", "乾燥", "2026.02–06"], [p.art === "charcoal" ? "flame" : "hand", p.art === "charcoal" ? "炭窯で加工" : p.art === "chips" ? "粉砕" : "職人が加工", "2026.07"], ["store", "販売中", "2026.09 –"]];
+  return (
+    <div className="wrap">
+      <BackLink to="shop" label="ショップへ" />
+      <div className="pdetail">
+        <div className="pdetail-art"><ProductArt kind={p.art} tone={p.tone} /></div>
+        <div style={{ display: "grid", gap: 18 }}>
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            <span className="chip">{p.category}</span>
+            {p.fromMine && <span className="chip mine"><Icon name="sprout" size={14} />あなたが関わった竹</span>}
+          </div>
+          <h1>{p.name}</h1>
+          <div className="big-price num">{yen(p.price)}<small>{p.unit}・税込</small></div>
+          <p className="muted">{p.long}</p>
+          <div className="card story">
+            <b style={{ fontFamily: "var(--font-display)" }}>この商品のものがたり</b>
+            <div className="story-flow">
+              {story.map(([ic, t, d]) => <div key={t}><span><Icon name={ic} size={18} /></span>{t}<small>{d}</small></div>)}
+            </div>
+          </div>
+          <dl className="card specs">
+            {p.specs.map(([k, v]) => <React.Fragment key={k}><dt>{k}</dt><dd>{v}</dd></React.Fragment>)}
+          </dl>
+          <div className="buy-row">
+            <div className="stepper" role="group" aria-label="数量">
+              <button type="button" aria-label="減らす" onClick={() => setQty(Math.max(1, qty - 1))}><Icon name="minus" /></button>
+              <span className="num">{qty}</span>
+              <button type="button" aria-label="増やす" onClick={() => setQty(Math.min(9, qty + 1))}><Icon name="plus" /></button>
+            </div>
+            <button className="btn btn-amber" onClick={buy}><Icon name="bag" />購入する（{yen(p.price * qty)}）</button>
+          </div>
+        </div>
+      </div>
+      {open && <PurchaseModal p={p} qty={qty} onClose={() => setOpen(false)} />}
+    </div>
+  );
+}
+
+function PurchaseModal({ p, qty, onClose }) {
+  const { go, purchaseCount } = useApp();
+  useEffect(() => {
+    const k = (e) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", k);
+    return () => window.removeEventListener("keydown", k);
+  }, [onClose]);
+  return (
+    <div className="modal-bg" onClick={onClose}>
+      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="m-title" onClick={(e) => e.stopPropagation()}>
+        <span className="chip demo-tag">プロトタイプ</span>
+        <h2 id="m-title">購入手続きのデモです</h2>
+        <p className="muted" style={{ fontSize: 14.5 }}>実際の決済は行われません。<br />{p.name} × {qty}（{yen(p.price * qty)}）</p>
+        <div className="loopmsg">
+          <Icon name="cycle" size={28} style={{ color: "var(--bamboo)", flex: "none" }} />
+          <span>この購入で竹の需要が生まれました。<br /><b>次の竹林整備へ、めぐりがつながります。</b>（アプリからの購入 <span className="num">{42 + purchaseCount}</span>件目）</span>
+        </div>
+        <button className="btn btn-primary btn-block" onClick={() => go("events")}><Icon name="calendar" />次は、竹を切りに行く</button>
+        <button className="btn btn-ghost btn-block" onClick={() => go("home")}>ホームにもどる</button>
+        <button className="link-btn" style={{ justifySelf: "center" }} onClick={onClose}>閉じる</button>
+      </div>
+    </div>
+  );
+}
+
+/* 「竹めぐりとは」用イラスト */
+function IllGrowth() {
+  const r = rng(5);
+  return (
+    <svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="320" height="240" style={{ fill: "var(--surface-2)" }} />
+      <rect x="0" y="206" width="320" height="34" style={{ fill: "var(--g3)", opacity: .5 }} />
+      <Stalk x={140} w={22} h={206} top={20} tone="var(--g2)" seg={40} r={r} />
+      {[[60, 150, 1], [96, 120, 2], [196, 100, 3], [232, 60, 4]].map(([x, top, d]) => (
+        <g key={x}>
+          <Stalk x={x} w={14} h={206} top={top} tone="var(--g3)" seg={34} r={r} leaves={false} />
+          <text x={x + 7} y={top - 8} textAnchor="middle" style={{ fill: "var(--ink-soft)", fontFamily: "var(--font-num)", fontSize: 12, fontWeight: 700 }}>{d}日目</text>
+        </g>
+      ))}
+      <path d="M270 190 V40 M262 52 L270 40 L278 52" style={{ fill: "none", stroke: "var(--amber)", strokeWidth: 3, strokeLinecap: "round" }} />
+      <text x="280" y="120" style={{ fill: "var(--amber)", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 18 }} transform="rotate(90 280 120)">ぐんぐん</text>
+    </svg>
+  );
+}
+
+function IllSpread() {
+  const r = rng(21);
+  return (
+    <svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="320" height="240" style={{ fill: "var(--surface-2)" }} />
+      <rect x="0" y="200" width="320" height="40" style={{ fill: "var(--g3)", opacity: .45 }} />
+      {Array.from({ length: 11 }, (_, i) => <Stalk key={i} x={i * 17} w={12} h={200} top={-10 + (i % 3) * 8} tone={["var(--g1)", "var(--g2)"][i % 2]} seg={36} r={r} leaves={i % 3 === 0} />)}
+      {[196, 222].map((x, i) => <Stalk key={"e" + i} x={x} w={10} h={200} top={110 + i * 30} tone="var(--g2)" seg={30} r={r} leaves={false} />)}
+      <g transform="translate(232 120)">
+        <path d="M0 40 L36 10 L72 40 V80 H0Z" style={{ fill: "var(--surface)" }} />
+        <path d="M-6 42 L36 6 L78 42" style={{ fill: "none", stroke: "var(--art-wood-dk)", strokeWidth: 6, strokeLinejoin: "round" }} />
+        <rect x="26" y="52" width="20" height="28" style={{ fill: "var(--art-wood)" }} />
+      </g>
+      <path d="M190 214 q10 -6 20 0 q10 6 20 0" style={{ fill: "none", stroke: "var(--g1)", strokeWidth: 3, strokeLinecap: "round" }} />
+      <g transform="translate(180 70)">
+        <circle r="18" style={{ fill: "var(--amber)" }} />
+        <text y="7" textAnchor="middle" style={{ fill: "var(--on-amber)", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 22 }}>!</text>
+      </g>
+    </svg>
+  );
+}
+
+function IllDecline() {
+  return (
+    <svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="320" height="240" style={{ fill: "var(--surface-2)" }} />
+      <line x1="40" y1="196" x2="290" y2="196" style={{ stroke: "var(--ink-soft)", strokeWidth: 2 }} />
+      {[[60, 130], [110, 100], [160, 72], [210, 48], [260, 30]].map(([x, hh], i) => (
+        <g key={x}>
+          <rect x={x - 16} y={196 - hh} width="32" height={hh} rx="6" style={{ fill: i < 2 ? "var(--g2)" : "var(--g3)" }} />
+          <rect x={x - 18} y={196 - hh * 0.55} width="36" height="3" rx="1.5" style={{ fill: "var(--node)", opacity: .5 }} />
+        </g>
+      ))}
+      <path d="M50 52 Q160 70 280 150" style={{ fill: "none", stroke: "var(--amber)", strokeWidth: 3.5, strokeDasharray: "8 7", strokeLinecap: "round" }} />
+      <path d="M268 136 L282 152 L262 156" style={{ fill: "none", stroke: "var(--amber)", strokeWidth: 3.5, strokeLinecap: "round", strokeLinejoin: "round" }} />
+      <text x="56" y="38" style={{ fill: "var(--ink)", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 15 }}>竹を使う人・管理する人</text>
+      <text x="60" y="218" textAnchor="middle" style={{ fill: "var(--ink-soft)", fontSize: 11, fontWeight: 700 }}>むかし</text>
+      <text x="260" y="218" textAnchor="middle" style={{ fill: "var(--ink-soft)", fontSize: 11, fontWeight: 700 }}>いま</text>
+    </svg>
+  );
+}
+
+function IllPeople() {
+  const people = [[60, "var(--s-winter)", "saw"], [120, "var(--s-spring)", "camera"], [180, "var(--s-dried)", "hand"], [240, "var(--amber)", "bag"]];
+  return (
+    <svg viewBox="0 0 320 240" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <rect width="320" height="240" style={{ fill: "var(--surface-2)" }} />
+      <circle cx="160" cy="140" r="104" style={{ fill: "none", stroke: "var(--g3)", strokeWidth: 3, strokeDasharray: "4 9", strokeLinecap: "round" }} />
+      {people.map(([x, c, ic], i) => (
+        <g key={x} transform={`translate(${x} ${i % 2 ? 128 : 116})`}>
+          <circle cy="0" r="16" style={{ fill: "var(--art-straw)" }} />
+          <path d="M-24 66 Q-24 24 0 24 Q24 24 24 66Z" style={{ fill: c }} />
+          <circle cx="0" cy="-34" r="13" style={{ fill: "var(--surface)", stroke: c, strokeWidth: 2 }} />
+          <g transform="translate(-8 -42) scale(.68)" style={{ color: "var(--ink)" }}>
+            <path d={ICONS[ic]} style={{ fill: "none", stroke: "currentColor", strokeWidth: 2.4, strokeLinecap: "round", strokeLinejoin: "round" }} />
+          </g>
+        </g>
+      ))}
+      <text x="160" y="226" textAnchor="middle" style={{ fill: "var(--bamboo-deep)", fontFamily: "var(--font-display)", fontWeight: 900, fontSize: 15 }}>切る・撮る・作る・買う</text>
+    </svg>
+  );
+}
+
+function AboutPage() {
+  const { go } = useApp();
+  const issues = [
+    { ill: <IllGrowth />, no: "知ってた？", title: "竹は、とても速く育つ植物です。", body: "春のタケノコは、1日に1m以上伸びることもあります。人の手が入らないと、竹林はあっという間に混み合ってしまいます。",
+      pts: ["地下茎で横にも広がる", "数年で林の中が暗くなる"] },
+    { ill: <IllSpread />, no: "課題 1", title: "阿南市では竹林の管理が追いついていません。", body: "手入れされない竹林は、畑や家のまわり、山の木々の場所にまで広がっていきます。",
+      pts: ["竹林が暗くなり、ほかの植物が育ちにくい", "畑や道、家の近くまで竹が入りこむ"] },
+    { ill: <IllDecline />, no: "課題 2", title: "竹の需要が減り、竹林を管理する人も減っています。", body: "プラスチック製品が増えて竹を使う場面が減り、竹林の持ち主も高齢化。「切っても使い道がない」状態になっています。",
+      pts: ["竹製品を使う機会が少なくなった", "竹林を手入れする人の担い手不足"] },
+    { ill: <IllPeople />, no: "必要なこと", title: "竹を使う人・竹林を整備する人を増やすことが必要です。", body: "切る人だけでなく、撮る人、伝える人、作る人、買う人。いろいろな関わり方の人が増えれば、竹林は続いていきます。",
+      pts: ["力仕事が苦手でも関われる", "買うだけでも、竹林整備の応援になる"] },
+  ];
+  return (
+    <div className="wrap">
+      <div className="page-head">
+        <span className="eyebrow">竹めぐりとは</span>
+        <h1>竹林を、めぐらせよう。</h1>
+        <p>「放置竹林」という言葉を知らなくても大丈夫。まずは竹と竹林のいまを、絵で見てみましょう。</p>
+      </div>
+      <div style={{ display: "grid", gap: 20, marginTop: 16 }}>
+        {issues.map((it, i) => (
+          <div key={i} className={"card issue fade-in" + (i % 2 ? " rev" : "")}>
+            <div className="ill">{it.ill}</div>
+            <div>
+              <span className="no">{it.no}</span>
+              <h2>{it.title}</h2>
+              <p>{it.body}</p>
+              <ul>{it.pts.map((t) => <li key={t}><Icon name="check" size={16} stroke={2.6} />{t}</li>)}</ul>
+            </div>
+          </div>
+        ))}
+      </div>
+      <section className="section">
+        <div className="answer">
+          <span className="eyebrow" style={{ color: "var(--on-primary)" }}>だから、竹めぐり</span>
+          <h2>大変な作業を、<br />参加したくなる体験に。</h2>
+          <div className="verbs4"><span>切って</span><span>食べて</span><span>作って</span><span>買って</span></div>
+          <p>竹林整備のイベントに参加して、伐った竹を竹炭や竹製品に。それをアプリで販売し、誰かが買うことで竹の需要が生まれ、また竹林整備につながります。</p>
+          <div className="btn-row" style={{ justifyContent: "center", marginTop: 8, width: "100%", maxWidth: 520 }}>
+            <button className="btn btn-ghost" onClick={() => go("events")}><Icon name="calendar" />イベントに参加する</button>
+            <button className="btn btn-ghost" onClick={() => go("cycle")}><Icon name="cycle" />循環のしくみを見る</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function NotFound() {
+  const { go } = useApp();
+  return (
+    <div className="wrap" style={{ paddingBlock: 60, textAlign: "center", display: "grid", gap: 16, justifyItems: "center" }}>
+      <h1>ページが見つかりません</h1>
+      <button className="btn btn-primary" onClick={() => go("home")}>ホームへもどる</button>
+    </div>
+  );
+}
+
+/* =====================================================================
+   6. APP ROOT
+   ===================================================================== */
+
+function App() {
+  const [route, setRoute] = useState(parseHash());
+  const [registration, setRegistration] = useState(null);
+  const [purchaseCount, setPurchaseCount] = useState(0);
+
+  useEffect(() => {
+    const onHash = () => { setRoute(parseHash()); window.scrollTo({ top: 0 }); };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  const go = (to) => {
+    if (("#" + to) === window.location.hash || (to === "home" && !window.location.hash)) { window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+    window.location.hash = to;
+  };
+  const addPurchase = (n) => setPurchaseCount((c) => c + 1);
+
+  const pages = {
+    home: <HomePage />,
+    events: <EventsPage />,
+    event: <EventDetailPage id={route.id} />,
+    apply: <ApplyPage id={route.id} key={route.id} />,
+    done: <DonePage />,
+    mybamboo: <MyBambooPage />,
+    cycle: <CyclePage />,
+    shop: <ShopPage />,
+    product: <ProductDetailPage id={route.id} key={route.id} />,
+    about: <AboutPage />,
+  };
+  const hasCta = route.page === "event";
+
+  useEffect(() => { document.body.classList.toggle("has-cta", hasCta); }, [hasCta]);
+
+  return (
+    <AppCtx.Provider value={{ route, go, registration, setRegistration, purchaseCount, addPurchase }}>
+      <div className="app">
+        <Header />
+        <main className="main">
+          {pages[route.page] || <NotFound />}
+          <Footer />
+        </main>
+        <TabBar />
+      </div>
+    </AppCtx.Provider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
